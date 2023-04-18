@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Add Keywords</h2>
+<mat-dialog-content>
+  <p>Add the keywords as a seperate line for each</p>
+  <mat-form-field class="full-width text-area-height">
+    <mat-label>Fill in the keywords</mat-label>
+    <textarea matInput class="text-area-height" [(ngModel)]="data.keyword"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="secondary" mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Save</button>
+</mat-dialog-actions>

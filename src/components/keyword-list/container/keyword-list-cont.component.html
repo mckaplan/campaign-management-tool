@@ -1,0 +1,7 @@
+<app-keyword-list-pres
+  [keywordList]='(keywordList | async)'
+  (addKeywordButtonClicked)="addKeywordList($event)"
+  (continueButtonClicked)="continueButton($event)"
+  (cancelButtonClicked)="cancelButton($event)"
+  (searchInputChanged)="searchInputChanged($event)">
+</app-keyword-list-pres>

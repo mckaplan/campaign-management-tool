@@ -1,0 +1,30 @@
+<div class="keywordList">
+  <h1>Keywords</h1>
+  <div id="keyword-action-group">
+    <app-action-group-pres
+      (addButton)="addKeywordButtonClicked.emit($event)"
+      (searchInput)="searchInputChanged.emit($event)">
+    </app-action-group-pres>
+  </div>
+
+  <div id="keyword-item-list" *ngTemplateOutlet="keywordList ? keywordPage : noKeyword">
+
+  </div>
+  <div id="buttons-group">
+    <app-buttons-group-pres
+    (continueButton)="continueButtonClicked.emit($event)"
+    (cancelButton)="cancelButtonClicked.emit($event)">
+  </app-buttons-group-pres>
+  </div>
+</div>
+
+<ng-template #keywordPage>
+  <app-keyword-item-pres
+    [keywordsList]="keywordList">
+  </app-keyword-item-pres>
+</ng-template>
+
+
+<ng-template #noKeyword>
+  <h1 id="notification">Please Add Keywords!!!</h1>
+</ng-template>
