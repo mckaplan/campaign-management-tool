@@ -1,7 +1,32 @@
-<app-keyword-list-pres
+<div class="keywordList">
+  <h1>Keywords</h1>
+  <div id="keyword-action-group">
+    <app-action-group-pres
+      [buttonText]="'Add Keywords'"
+      (addButton)="addKeywordList($event)"
+      (searchInput)="searchInputChanged($event)">
+    </app-action-group-pres>
+  </div>
+
+  <div id="keyword-item-list" *ngTemplateOutlet="(keywordList | async)?.length ? keywordPage : noKeyword">
+
+  </div>
+  <div id="buttons-group">
+    <app-buttons-group-pres
+    (continueButton)="continueButton($event)"
+    (cancelButton)="cancelButton($event)">
+  </app-buttons-group-pres>
+  </div>
+</div>
+
+<ng-template #keywordPage>
+  <app-keyword-list-pres
   [keywordList]='(keywordList | async)'
-  (addKeywordButtonClicked)="addKeywordList($event)"
-  (continueButtonClicked)="continueButton($event)"
-  (cancelButtonClicked)="cancelButton($event)"
-  (searchInputChanged)="searchInputChanged($event)">
+  (keywordListChanged)="getKeywordList($event)">
 </app-keyword-list-pres>
+</ng-template>
+
+
+<ng-template #noKeyword>
+  <h1 id="notification">Please Add Keywords!!!</h1>
+</ng-template>

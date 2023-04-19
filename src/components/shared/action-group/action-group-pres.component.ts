@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-action-group-pres',
@@ -6,6 +6,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./action-group-pres.component.scss']
 })
 export class ActionGroupPresComponent {
+  /**
+   * button text
+   */
+  @Input()
+  buttonText: string = '';
+
   /**
    * Output of add button click event
    */

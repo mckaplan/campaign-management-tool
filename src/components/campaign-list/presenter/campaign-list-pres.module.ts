@@ -1,20 +1,18 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { KeywordItemPresComponent } from "./keyword-item-pres.component";
-import { ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "src/components/shared";
+import { CampaignListPresComponent } from "./campaign-list-pres.component";
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     SharedModule
   ],
   declarations: [
-    KeywordItemPresComponent
+    CampaignListPresComponent
   ],
   exports: [
-    KeywordItemPresComponent
+    CampaignListPresComponent
   ]
 })
-export class KeywordItemPresModule { }
+export class CampaignListPresModule { }

@@ -2,18 +2,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KeywordListPresComponent } from './keyword-list-pres.component';
 import { CommonModule } from '@angular/common';
-import { KeywordItemPresModule } from '../subcomponent';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/components/shared';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Keyword } from '../model/keyword.model';
 
 describe('KeywordListPresComponent', () => {
   let component: KeywordListPresComponent;
   let fixture: ComponentFixture<KeywordListPresComponent>;
-  let mockData: Keyword[] = [{
+  const mockData = [{
     name: 'test',
+    bid: 0,
+    suggestedBid: 2,
+    matchType: 'Exact'
+  },
+  {
+    name: 'test1',
     bid: 0,
     suggestedBid: 2,
     matchType: 'Exact'
@@ -25,7 +29,6 @@ describe('KeywordListPresComponent', () => {
       imports: [
         CommonModule,
         BrowserModule,
-        KeywordItemPresModule,
         ReactiveFormsModule,
         SharedModule,
         BrowserAnimationsModule
@@ -35,6 +38,7 @@ describe('KeywordListPresComponent', () => {
 
     fixture = TestBed.createComponent(KeywordListPresComponent);
     component = fixture.componentInstance;
+    component.keywordList = mockData;
     fixture.detectChanges();
   });
 
@@ -42,21 +46,28 @@ describe('KeywordListPresComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display action-group, buttons-group and warning notification components  ', () => {
-    component.keywordList = null;
-    fixture.detectChanges();
-    const elem = fixture.debugElement.nativeElement;
+  it('should display keyword list', () => {
+    const elems = fixture.debugElement.queryAll(By.css('.keyword'));
 
-    expect(elem.querySelector('#keyword-action-group')).toBeTruthy();
-    expect(elem.querySelector('#buttons-group')).toBeTruthy();
-    expect(elem.querySelector('#notification')).toBeTruthy();
+    expect(elems.length).toBe(2);
+    expect(elems[1].query(By.css('#name')).nativeElement.value).toBe('test1');
+    expect(elems[1].query(By.css('#matchType')).nativeElement.value).toBe('Exact');
+    expect(elems[1].query(By.css('#bid')).nativeElement.value).toBe('0');
   });
 
-  it('should display keywordItemsPres components  ', () => {
-    component.keywordList = mockData;
+  it('should remove keyword item', () => {
+    component.removeKeyword(1);
     fixture.detectChanges();
-    const elem = fixture.debugElement.nativeElement;
+    const elems = fixture.debugElement.queryAll(By.css('.keyword'));
 
-    expect(elem.querySelector('app-keyword-item-pres')).toBeTruthy();
+    expect(elems.length).toBe(1);
+  });
+
+  it('should set suggested bid for keyword item', () => {
+    component.setSuggestedBid(1, 4);
+    fixture.detectChanges();
+    const elems = fixture.debugElement.queryAll(By.css('.keyword'));
+
+    expect(elems[1].query(By.css('#bid')).nativeElement.value).toBe('4');
   });
 });
