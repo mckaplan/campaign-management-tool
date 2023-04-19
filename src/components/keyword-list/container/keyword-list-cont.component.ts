@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KeywordAddDialogPresComponent } from '../subcomponent/keyword-add-dialog/keyword-add-dialog-pres.component';
-import { Observable, Subject } from 'rxjs';
-import { Keyword } from '../model/keyword.model';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Keyword } from '../../../models/keyword.model';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -14,7 +14,7 @@ export class KeywordListContComponent implements OnInit {
   /**
    *  keyword list subject
    */
-  private keywordListSubject = new Subject<Keyword[]>();
+  private keywordListSubject = new BehaviorSubject<Keyword[]>([]);
 
   /**
    * keyword list object to show list
@@ -92,5 +92,9 @@ export class KeywordListContComponent implements OnInit {
    */
   public searchInputChanged(e: any) {
       console.log(e);
+  }
+
+  public getKeywordList(e: any) {
+    console.log(e);
   }
 }

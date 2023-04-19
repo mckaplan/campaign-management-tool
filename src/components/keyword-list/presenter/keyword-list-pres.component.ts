@@ -1,39 +1,82 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Keyword } from '../model/keyword.model';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Keyword } from '../../../models/keyword.model';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-keyword-list-pres',
   templateUrl: './keyword-list-pres.component.html',
   styleUrls: ['./keyword-list-pres.component.scss']
 })
-export class KeywordListPresComponent {
+export class KeywordListPresComponent implements OnInit, OnChanges {
   /**
    * Input keyword list
    */
   @Input()
   public keywordList: Keyword[] | null = [];
 
-  /**
-   * Output of add keyword button clicked
-   */
   @Output()
-  public addKeywordButtonClicked: EventEmitter<void> = new EventEmitter<void>();
+  public keywordListChanged: EventEmitter<Keyword[]> = new EventEmitter<Keyword[]>();
 
   /**
-   * Output of continue button click to redirect next page
-   */
-  @Output()
-  public continueButtonClicked: EventEmitter<void> = new EventEmitter<void>();
+   * form group of keyword list
+  */
+  myForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.myForm = this.fb.group({
+      keywords: this.fb.array([])
+    });
+
+    this.keywords.valueChanges.subscribe((result) => {
+      console.log(result);
+      this.keywordListChanged.emit(result);
+    });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
+
+  ngOnInit(): void {
+    this.InitFormArray(this.keywordList!);
+  }
 
   /**
-   * Output of cancel button click to redirect previous page
+   * Set keyword form array
+   * @param keywordsList
    */
-  @Output()
-  public cancelButtonClicked: EventEmitter<void> = new EventEmitter<void>();
+  private async InitFormArray(keywordsList: Keyword[]) {
+    keywordsList.forEach((value) => {
+      this.keywords.push(this.fb.group({
+        name: this.fb.control(value.name),
+        bid: this.fb.control(0),
+        suggestedBid: this.fb.control(2),
+        matchType: this.fb.control('Exact')
+      }));
+    });
+  }
 
   /**
-   * Output of search input value
+   * Get keywords form array
    */
-  @Output()
-  public searchInputChanged: EventEmitter<string> = new EventEmitter<string>();
+  public get keywords() {
+    return this.myForm.get('keywords') as FormArray;
+  }
+
+  /**
+   * Remove one keyword
+   * @param i index number of form array
+   */
+  public removeKeyword(i: number) {
+    this.keywords.removeAt(i);
+  }
+
+  /**
+   * Set suggested bid value to current one
+   * @param index index number
+   * @param suggestedBid suggested bid value
+   */
+  public setSuggestedBid(index: number, suggestedBid: number) {
+    this.keywords.value[index].bid = suggestedBid;
+    this.keywords.setValue(this.keywords.value);
+  }
 }

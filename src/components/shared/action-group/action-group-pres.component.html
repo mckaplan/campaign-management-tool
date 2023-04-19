@@ -1,10 +1,11 @@
 
 <div class="action-group">
   <div class="action">
-    <button mat-raised-button color="primary" (click)="addButton.emit()" id="add-button">Add Keywords</button>
+    <button mat-raised-button color="primary" (click)="addButton.emit()" id="add-button">{{buttonText}}</button>
   </div>
   <div class="action">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
       <input matInput placeholder="Search" id="search" (keyup)="searchText($event)" >
     </mat-form-field>
   </div>

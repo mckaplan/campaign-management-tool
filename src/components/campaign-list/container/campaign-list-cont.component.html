@@ -1,0 +1,13 @@
+<div class="campaigns">
+  <h1>All Campaigns</h1>
+  <div id="campaign-action-group">
+    <app-action-group-pres
+      [buttonText]="'Create Campaign'"
+      (addButton)="createCampaign($event)"
+      (searchInput)="searchInputChanged($event)">
+    </app-action-group-pres>
+  </div>
+  <div id="campaign-list">
+  <app-campaign-list-pres [campaigns]="(campaignList | async)"></app-campaign-list-pres>
+  </div>
+</div>

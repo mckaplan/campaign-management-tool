@@ -5,7 +5,7 @@ import { SharedModule } from 'src/components/shared';
 import { ReplaySubject } from 'rxjs';
 import { KeywordListPresModule } from '../presenter';
 import { KeywordAddDialogPresModule } from '../subcomponent';
-import { Keyword } from '../model/keyword.model';
+import { Keyword } from '../../../models/keyword.model';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -60,7 +60,16 @@ describe('KeywordListContComponent', () => {
 
     expect(mockDialog.open).toHaveBeenCalled();
     component.keywordList.subscribe((result) => {
-      expect(result).toBe(mockData);
+      expect(result).toEqual(mockData);
     })
+  });
+
+  it('should display action-group, buttons-group and warning notification components  ', () => {
+    fixture.detectChanges();
+    const elem = fixture.debugElement.nativeElement;
+
+    expect(elem.querySelector('#keyword-action-group')).toBeTruthy();
+    expect(elem.querySelector('#buttons-group')).toBeTruthy();
+    expect(elem.querySelector('#notification')).toBeTruthy();
   });
 });

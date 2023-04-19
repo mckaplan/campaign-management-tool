@@ -1,0 +1,57 @@
+<table *ngIf="campaigns" mat-table [dataSource]="campaigns" class="mat-elevation-z8">
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Campaign Name </th>
+    <td mat-cell *matCellDef="let campaign"> {{campaign.name}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let campaign"> {{campaign.status}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="startDate">
+    <th mat-header-cell *matHeaderCellDef> Start Date </th>
+    <td mat-cell *matCellDef="let campaign"> {{campaign.startDate}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="endDate">
+    <th mat-header-cell *matHeaderCellDef> End Date </th>
+    <td mat-cell *matCellDef="let campaign"> {{campaign.endDate}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="impression">
+    <th mat-header-cell *matHeaderCellDef> Impression </th>
+    <td mat-cell *matCellDef="let campaign"> {{campaign.impression}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="clicks">
+    <th mat-header-cell *matHeaderCellDef> Clicks </th>
+    <td mat-cell *matCellDef="let campaign"> {{campaign.clicks}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="acos">
+    <th mat-header-cell *matHeaderCellDef> AcoS </th>
+    <td mat-cell *matCellDef="let campaign"> {{campaign.acos}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
