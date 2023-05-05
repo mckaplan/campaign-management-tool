@@ -1,0 +1,29 @@
+<h2 style="text-align:center; font-size: 40px;">Set Your Campaign Budget and Duration</h2>
+<div style="width: 80%; margin: 0 auto;">
+  <form [formGroup]="campaignForm" style="display: flex; flex-direction: column; gap: 20px;">
+    <mat-form-field appearance="outline" style="width: 50%;">
+      <mat-label>Campaign Name</mat-label>
+      <input matInput placeholder="Campaign Name" formControlName="campaignName" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 20%;">
+      <mat-label>Daily Budget</mat-label>
+      <input matInput placeholder="Daily Budget" formControlName="dailyBudget" />
+    </mat-form-field>
+
+    <div style="display: flex; gap: 20px;">
+      <mat-form-field appearance="outline" style="width: 20%;">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="startDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 20%;">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="endDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>  
+    </div>
+  </form>
+</div>

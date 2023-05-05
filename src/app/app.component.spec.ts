@@ -4,8 +4,9 @@ import { AppComponent } from './app.component';
 import { BrowserModule, } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
-import { CampaignListContModule, KeywordListContModule, SharedModule } from 'src/components';
+import { CampaignListContModule, SharedModule, KeywordListContModule } from 'src/components';
 import { CampaignTypeContModule } from 'src/components/campaign-type';
+import { ProductsAndAdGroupContModule } from 'src/components/products-and-ad-group';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -18,7 +19,8 @@ describe('AppComponent', () => {
         KeywordListContModule,
         CampaignListContModule,
         CampaignTypeContModule,
-        SharedModule
+        SharedModule,
+        ProductsAndAdGroupContModule
       ],
       declarations: [
         AppComponent

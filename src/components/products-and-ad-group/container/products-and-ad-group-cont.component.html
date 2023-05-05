@@ -1,0 +1,17 @@
+<div>
+    <app-products-and-ad-group-pres
+    (formSubmit)="onFormSubmit($event)" >
+    </app-products-and-ad-group-pres>
+</div>
+ 
+ <div>
+    <app-products-pres [products]="(products | async)" (addClick)="onAddClick($event)"></app-products-pres>
+ </div>
+ <div id="buttons-group">
+    <app-buttons-group-pres
+    (continueButton)="continueButton($event)"
+    (cancelButton)="cancelButton($event)">
+    </app-buttons-group-pres>
+  </div>
+
+

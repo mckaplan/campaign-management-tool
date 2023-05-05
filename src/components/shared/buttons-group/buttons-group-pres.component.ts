@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-buttons-group-pres',
@@ -17,4 +17,6 @@ export class ButtonsGroupPresComponent {
    */
   @Output()
   public cancelButton: EventEmitter<void> = new EventEmitter<void>();
+
+  @Input() disabled: boolean;
 }
