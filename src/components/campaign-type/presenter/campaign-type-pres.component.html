@@ -1,0 +1,20 @@
+<div class="campaign-types" *ngIf="campaignTypes">
+  <table *ngFor = "let campaignType of campaignTypes">
+    <tr>
+      <td>{{campaignType.name}}</td>
+    </tr>
+    <tr>
+      <td><img src="/src/assets/img/parking.jpg"></td>
+    </tr>
+    <tr>
+      <td>{{campaignType.details}}</td>
+    </tr>
+    <tr>
+      <td><button mat-raised-button color="primary" id="continue-button" (click)="continueBtnClicked.emit(campaignType.id)">Continue</button></td>
+    </tr>
+    <tr>
+      <td><a href="{{campaignType.url}}" target="_blank">Explore Sponsored Products</a></td>
+    </tr>
+  </table>
+
+</div>

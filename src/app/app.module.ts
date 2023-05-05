@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CampaignListContModule, KeywordListContModule, SharedModule } from 'src/components';
+import { CampaignTypeContModule } from 'src/components/campaign-type';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { CampaignListContModule, KeywordListContModule, SharedModule } from 'src
     BrowserAnimationsModule,
     KeywordListContModule,
     CampaignListContModule,
+    CampaignTypeContModule,
     SharedModule
   ],
   exports:[SharedModule],

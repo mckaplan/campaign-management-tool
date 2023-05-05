@@ -32,8 +32,11 @@ export class KeywordListPresComponent implements OnInit, OnChanges {
       this.keywordListChanged.emit(result);
     });
   }
-  ngOnChanges(changes: SimpleChanges): void {
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes) {
+      this.InitFormArray(this.keywordList!);
+    }
   }
 
   ngOnInit(): void {
@@ -45,6 +48,7 @@ export class KeywordListPresComponent implements OnInit, OnChanges {
    * @param keywordsList
    */
   private async InitFormArray(keywordsList: Keyword[]) {
+   this.keywords.clear();
     keywordsList.forEach((value) => {
       this.keywords.push(this.fb.group({
         name: this.fb.control(value.name),

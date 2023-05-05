@@ -1,0 +1,7 @@
+<div class="campaign-types">
+  <h1>Choose your campaign type</h1>
+  <app-campaign-type-pres
+    [campaignTypes]="campaignTypes | async"
+    (continueBtnClicked)="onContinueBtnClicked($event)"
+  ></app-campaign-type-pres>
+</div>
