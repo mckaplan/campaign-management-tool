@@ -1,0 +1,7 @@
+<div class="header">
+  <app-header-pres
+      [user]="user | async"
+      [isLoggedInUser]="isLoggedInUser | async"
+      (logOutBtnClicked)="logOut()"
+  ></app-header-pres>
+</div>

@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { CampaignStoreModule, metaReducers, reducers } from 'src/store';
 import { EffectsModule } from '@ngrx/effects';
 import { CampaignServiceModule, ProductServiceModule } from 'src/services';
+import { HeaderContModule } from './header';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CampaignServiceModule, ProductServiceModule } from 'src/services';
     SharedModule,
     CampaignDetailContModule,
     ProductsAndAdGroupContModule,
+    HeaderContModule,
     CampaignStoreModule.forRoot(),
     StoreModule.forRoot(reducers, {
       metaReducers
