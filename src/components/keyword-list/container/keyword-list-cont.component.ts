@@ -1,34 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KeywordAddDialogPresComponent } from '../subcomponent/keyword-add-dialog/keyword-add-dialog-pres.component';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Keyword } from '../../../models/keyword.model';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { BehaviorSubject, Observable, filter, map, take } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { getKeywords, setProductKeywords, selectAllKeywords, selectProductKeywords } from '../../../store';
+import { Keyword, ProductKeyword } from 'src/models';
 
 @Component({
   selector: 'app-keyword-list-cont',
   templateUrl: './keyword-list-cont.component.html',
-  styleUrls: ['./keyword-list-cont.component.scss']
+  styleUrls: ['./keyword-list-cont.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeywordListContComponent implements OnInit {
   /**
-   *  keyword list subject
+   *  product keyword list subject
    */
-  private keywordListSubject = new BehaviorSubject<Keyword[]>([]);
+  private productKeywordsSubject = new BehaviorSubject<ProductKeyword[]>([]);
 
   /**
    * keyword list object to show list
    */
-  public keywordList: Observable<Keyword[]> = this.keywordListSubject.asObservable();
+  public productKeywords: Observable<ProductKeyword[]> = this.productKeywordsSubject.asObservable();
 
   /**
    * keywrod obj to send dialog
    */
-  keyword: string[] | undefined;
+  productKeywordsDialog: string[] | undefined;
+
+  /**
+   * Store defined keywords in DB
+   */
+  private keywords: Keyword[];
 
   constructor(
     private readonly dialog: MatDialog,
-  ) { }
+    private readonly store: Store
+  ) {
+    this.store.dispatch(getKeywords());
+
+    this.store.select(selectAllKeywords)
+      .pipe(
+        filter((val) => !! val.keywords && val.keywords?.length > 0),
+        map((val) => val.keywords),
+        take(1)
+      )
+      .subscribe((keywords) => {
+        this.keywords = keywords!;
+      });
+  }
 
   ngOnInit(): void {
 
@@ -40,12 +60,12 @@ export class KeywordListContComponent implements OnInit {
    */
   public async addKeywordList(e: any) {
     const dialogRef = this.dialog.open(KeywordAddDialogPresComponent, {
-      data: { keyword: this.keyword }
+      data: { keyword: this.productKeywordsDialog }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.setKeywordList(result);
+        this.setProductKeywords(result);
       }
     });
   }
@@ -54,25 +74,38 @@ export class KeywordListContComponent implements OnInit {
    * Setup object to show list data coming form dialog
    * @param keywordsList set object for list
    */
-  private async setKeywordList(keywordsList: string[]) {
-    let keywordObjs: Keyword[] = [];
+  private async setProductKeywords(productKeywords: string[]) {
+    let keywordObjs: ProductKeyword[] = [];
 
-    keywordsList.forEach((value) => {
+    productKeywords.forEach((value) => {
       keywordObjs.push({
         name: value,
         bid: 0,
-        suggestedBid: 2,
-        matchType: 'Exact'
-      } as Keyword);
+        suggestedBid: this.setBid(value),
+        matchType: 'Exact',
+        isActive: true
+      } as ProductKeyword);
     });
 
-    this.keywordListSubject.next(keywordObjs);
+    this.store.dispatch(setProductKeywords({
+      keywords: keywordObjs
+    }));
+    this.productKeywordsSubject.next(keywordObjs);
+  }
 
+  /**
+   *
+   * @param keywordName name of keyword
+   * @returns keyword bid number
+   */
+  private setBid(keywordName: string) {
+    const keyword = this.keywords.find((keyword) => keyword.name == keywordName);
+    return keyword ? keyword.bid : 0;
   }
 
   /**
    * redirect to next page
-   * @param e event value
+   * @param e event value      y
    */
   public continueButton(e: any) {
 
@@ -90,11 +123,28 @@ export class KeywordListContComponent implements OnInit {
    * search input change
    * @param e event value
    */
-  public searchInputChanged(e: any) {
-      console.log(e);
+  public searchInputChanged(search: any) {
+    this.store.select(selectProductKeywords)
+      .pipe(take(1))
+      .subscribe(res => {
+        let filterKey: ProductKeyword[] = [];
+        res.productKeywords!.forEach((val) => {
+          let obj = Object.assign({}, val);
+          obj.isActive = obj.name.indexOf(search) > -1;
+          filterKey.push(obj);
+        });
+
+        this.store.dispatch(setProductKeywords({ keywords: filterKey }));
+        this.productKeywordsSubject.next(filterKey);
+      });
   }
 
-  public getKeywordList(e: any) {
-    console.log(e);
+  /**
+   * get products key and save in store
+   * @param keywords product's keywords
+   */
+  public getProductKeywords(keywords: any) {
+
+    this.store.dispatch(setProductKeywords({ keywords }));
   }
 }

@@ -1,15 +1,18 @@
-<div *ngIf="keywordList" [formGroup]="myForm">
+<div *ngIf="productKeywords" [formGroup]="myForm">
   <ng-container formArrayName="keywords">
     <ng-container *ngFor="let keyword of keywords.controls; let index = index">
-      <div [formGroupName]="index">
+      <div [formGroupName]="index" [style.display]=" keyword.get('isActive')?.value ? 'block' : 'none'">
         <div class="keyword">
           <div class="left">
             <mat-form-field appearance="outline">
               <mat-label>Keyword</mat-label>
-              <input matInput placeholder="Keyword" formControlName="name" id="name">
+              <input matInput placeholder="Keyword" formControlName="name" id="name" >
+              <mat-error >
+                * Keyword is <strong>required</strong>
+              </mat-error>
             </mat-form-field>
-            <div>
-              <a (click)="setSuggestedBid(index,keyword.get('suggestedBid')?.value)">Set suggested</a> <span> | suggested bid: {{keyword.get("suggestedBid")?.value}} EUR</span>
+            <div *ngIf="keyword.get('suggestedBid')?.value > 0">
+              <a class="link" (click)="setSuggestedBid(index,keyword.get('suggestedBid')?.value)">Set suggested</a> <span> | suggested bid: {{keyword.get("suggestedBid")?.value}} EUR</span>
             </div>
           </div>
           <div class="left">
@@ -25,6 +28,9 @@
             <mat-form-field appearance="outline">
               <mat-label>Bid</mat-label>
               <input matInput placeholder="Bid" formControlName="bid" id="bid">
+              <mat-error >
+                * Bid is <strong>required</strong>
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="left remove-button">

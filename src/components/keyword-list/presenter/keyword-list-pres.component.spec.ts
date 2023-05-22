@@ -14,13 +14,15 @@ describe('KeywordListPresComponent', () => {
     name: 'test',
     bid: 0,
     suggestedBid: 2,
-    matchType: 'Exact'
+    matchType: 'Exact',
+    isActive: true
   },
   {
     name: 'test1',
     bid: 0,
     suggestedBid: 2,
-    matchType: 'Exact'
+    matchType: 'Exact',
+    isActive: true
   }];
 
   beforeEach(async () => {
@@ -38,7 +40,7 @@ describe('KeywordListPresComponent', () => {
 
     fixture = TestBed.createComponent(KeywordListPresComponent);
     component = fixture.componentInstance;
-    component.keywordList = mockData;
+    component.productKeywords = mockData;
     fixture.detectChanges();
   });
 
@@ -58,9 +60,8 @@ describe('KeywordListPresComponent', () => {
   it('should remove keyword item', () => {
     component.removeKeyword(1);
     fixture.detectChanges();
-    const elems = fixture.debugElement.queryAll(By.css('.keyword'));
 
-    expect(elems.length).toBe(1);
+    expect(component.keywords.length).toBe(1);
   });
 
   it('should set suggested bid for keyword item', () => {

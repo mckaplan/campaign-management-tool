@@ -8,6 +8,8 @@ import { CampaignListContModule, SharedModule, KeywordListContModule } from 'src
 import { CampaignTypeContModule } from 'src/components/campaign-type';
 import { ProductsAndAdGroupContModule } from 'src/components/products-and-ad-group';
 
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,6 +23,9 @@ describe('AppComponent', () => {
         CampaignTypeContModule,
         SharedModule,
         ProductsAndAdGroupContModule
+      ],
+      providers:[
+        provideMockStore()
       ],
       declarations: [
         AppComponent

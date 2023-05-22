@@ -12,12 +12,12 @@ export interface Campaign {
   /**
    * campaign startDate value
    */
-  startDate: string;
+  startDate: Date;
 
   /**
    * campaign endDate value
    */
-  endDate: string;
+  endDate: Date;
 
   /**
    * campaign impression value

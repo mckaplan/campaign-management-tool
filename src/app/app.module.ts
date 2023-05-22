@@ -3,12 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CampaignListContModule, KeywordListContModule, SharedModule } from 'src/components';
+import { CampaignDetailContModule, CampaignListContModule, KeywordListContModule, ProductsAndAdGroupContModule, SharedModule } from 'src/components';
 import { CampaignTypeContModule } from 'src/components/campaign-type';
-
-import { CampaignDetailContModule } from 'src/components/campaign-detail/container/campaign-detail-cont.module';
-import { ProductsAndAdGroupContModule } from 'src/components/products-and-ad-group/container/products-and-ad-group-cont.module';
-import { ProductsPresModule } from 'src/components/products-and-ad-group';
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { CampaignStoreModule, metaReducers, reducers } from 'src/store';
+import { EffectsModule } from '@ngrx/effects';
+import { CampaignServiceModule, ProductServiceModule } from 'src/services';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ProductsPresModule } from 'src/components/products-and-ad-group';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     KeywordListContModule,
@@ -24,11 +26,17 @@ import { ProductsPresModule } from 'src/components/products-and-ad-group';
     SharedModule,
     CampaignDetailContModule,
     ProductsAndAdGroupContModule,
-    ProductsPresModule
+    CampaignStoreModule.forRoot(),
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    EffectsModule.forRoot([]),
+    CampaignServiceModule,
+    ProductServiceModule
   ],
-  exports:[SharedModule],
+  exports: [SharedModule],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents:[AppComponent]
+  entryComponents: [AppComponent]
 })
 export class AppModule { }

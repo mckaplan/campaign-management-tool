@@ -11,11 +11,13 @@ const meta: Meta<CampaignTypePresComponent> = {
     moduleMetadata({
       imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+
       ],
       declarations: [
         CampaignTypePresComponent
       ],
+      providers:[]
     }),
     componentWrapperDecorator((story) => `<div style="margin: 5rem">${story}</div>`),
   ],

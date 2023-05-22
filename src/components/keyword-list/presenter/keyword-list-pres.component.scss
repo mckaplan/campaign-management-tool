@@ -10,13 +10,20 @@
 .keyword {
   display: inline-block;
   padding-top: 1rem;
+  width: 100%;
 }
 
 .left {
   float: left;
   padding-left: 1rem;
+
 }
 
 .remove-button {
   margin-top: .5rem;
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
 }

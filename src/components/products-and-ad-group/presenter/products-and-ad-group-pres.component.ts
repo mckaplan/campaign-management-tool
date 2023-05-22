@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AdProducts } from 'src/models/AdProducts.model';
+import { AdProducts } from 'src/models/adProducts.model';
 
 @Component({
   selector: 'app-products-and-ad-group-pres',

@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductsAndAdGroupContComponent } from './products-and-ad-group-cont.component';
-import { ProductService } from 'src/services/product.service';
 import { of } from 'rxjs';
 import { ProductsAndAdGroupPresModule } from '../presenter/products-and-ad-group-pres.module';
 import { ProductsPresModule } from '../products';
 import { SharedModule } from 'src/components/shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProductService } from 'src/services';
 
 describe('ProductsAndAdGroupContComponent', () => {
   let component: ProductsAndAdGroupContComponent;

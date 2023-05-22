@@ -23,7 +23,7 @@ const meta: Meta<ActionGroupPresComponent> = {
     props: {
       ...args,
       addButton: actions.addButton,
-      searchInput: actions.searchInput
+      searchInput: actions.searchInput,
     },
   }),
 };
@@ -36,5 +36,8 @@ export default meta;
 type Story = StoryObj<ActionGroupPresComponent>;
 
 export const First: Story = {
+  args: {
+    buttonText: 'Action Button'
+  }
 };
 
