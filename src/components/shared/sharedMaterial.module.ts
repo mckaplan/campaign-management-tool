@@ -14,6 +14,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatToolbarModule  } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -33,6 +35,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSortModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   exports: [
     MatButtonModule,
@@ -50,6 +54,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSortModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatToolbarModule,
+    MatIconModule
   ]
 })
 export class SharedMaterialModule { }
