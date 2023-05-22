@@ -1,4 +1,4 @@
-export class CampaignDetail {
+export interface CampaignDetail {
     campaignName: string;
     dailyBudget: number;
     startDate: Date;

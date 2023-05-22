@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 describe('CampaignTypePresComponent', () => {
   let component: CampaignTypePresComponent;
   let fixture: ComponentFixture<CampaignTypePresComponent>;
+
   const mockData = [{
     name: 'Sponsored Products',
     details: 'Promote products to shoppers actively searching with related keywords',

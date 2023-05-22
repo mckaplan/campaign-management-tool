@@ -24,7 +24,7 @@ const meta: Meta<KeywordListPresComponent> = {
   render: (args: KeywordListPresComponent) => ({
     props: {
       ...args,
-      keywordListChanged: actions.keywordListChanged,
+      productKeywordsChanged: actions.keywordListChanged,
       removeKeyword: actions.removeKeyword,
       setSuggestedBid: actions.setSuggestedBid
     },
@@ -42,24 +42,13 @@ type Story = StoryObj<KeywordListPresComponent>;
 
 export const First: Story = {
   args: {
-    keywordList: [
+    productKeywords: [
       {
         name: 'test',
         bid: 0,
         suggestedBid: 2,
-        matchType: 'Exact'
-      },
-      {
-        name: 'test1',
-        bid: 0,
-        suggestedBid: 2,
-        matchType: 'Exact'
-      },
-      {
-        name: 'test2',
-        bid: 0,
-        suggestedBid: 2,
-        matchType: 'Exact'
+        matchType: 'Exact',
+        isActive: true
       }
     ]
   },

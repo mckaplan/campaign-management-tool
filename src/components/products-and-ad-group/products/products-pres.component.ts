@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Product } from 'src/models/Product.model';
+import { Product } from 'src/models/product.model';
 
 @Component({
   selector: 'app-products-pres',
@@ -7,7 +7,7 @@ import { Product } from 'src/models/Product.model';
   styleUrls: ['./products-pres.component.scss']
 })
 export class ProductsPresComponent{
-  @Input() 
+  @Input()
   products: Product[] | null = [];
 
   @Output() addClick: EventEmitter<Product> = new EventEmitter<Product>();

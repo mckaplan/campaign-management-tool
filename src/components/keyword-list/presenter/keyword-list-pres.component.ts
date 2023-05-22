@@ -1,21 +1,31 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Keyword } from '../../../models/keyword.model';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+
+import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { filter } from 'rxjs';
+import { ProductKeyword } from 'src/models';
+export class FormErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-keyword-list-pres',
   templateUrl: './keyword-list-pres.component.html',
-  styleUrls: ['./keyword-list-pres.component.scss']
+  styleUrls: ['./keyword-list-pres.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeywordListPresComponent implements OnInit, OnChanges {
   /**
    * Input keyword list
    */
   @Input()
-  public keywordList: Keyword[] | null = [];
+  public productKeywords: ProductKeyword[] | null = [];
 
   @Output()
-  public keywordListChanged: EventEmitter<Keyword[]> = new EventEmitter<Keyword[]>();
+  public productKeywordsChanged: EventEmitter<ProductKeyword[]> = new EventEmitter<ProductKeyword[]>();
 
   /**
    * form group of keyword list
@@ -27,34 +37,41 @@ export class KeywordListPresComponent implements OnInit, OnChanges {
       keywords: this.fb.array([])
     });
 
-    this.keywords.valueChanges.subscribe((result) => {
-      console.log(result);
-      this.keywordListChanged.emit(result);
-    });
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes) {
-      this.InitFormArray(this.keywordList!);
+    if (changes && !changes['productKeywords'].firstChange) {
+      this.InitFormArray(this.productKeywords!);
     }
   }
 
   ngOnInit(): void {
-    this.InitFormArray(this.keywordList!);
+    this.InitFormArray(this.productKeywords!);
+
+    this.keywords.valueChanges
+      .pipe(
+        filter((result) => !!result)
+      )
+      .subscribe((result) => {
+        console.log(result);
+        this.productKeywordsChanged.emit(result);
+      });
   }
 
   /**
    * Set keyword form array
    * @param keywordsList
    */
-  private async InitFormArray(keywordsList: Keyword[]) {
-   this.keywords.clear();
-    keywordsList.forEach((value) => {
+  private async InitFormArray(productKeywords: ProductKeyword[]) {
+    this.keywords.clear();
+    productKeywords.forEach((value) => {
       this.keywords.push(this.fb.group({
-        name: this.fb.control(value.name),
-        bid: this.fb.control(0),
-        suggestedBid: this.fb.control(2),
-        matchType: this.fb.control('Exact')
+        name: this.fb.control(value.name, Validators.required),
+        bid: this.fb.control(value.bid, Validators.required),
+        suggestedBid: this.fb.control(value.suggestedBid),
+        matchType: this.fb.control(value.matchType),
+        isActive: this.fb.control(value.isActive)
       }));
     });
   }
@@ -80,7 +97,8 @@ export class KeywordListPresComponent implements OnInit, OnChanges {
    * @param suggestedBid suggested bid value
    */
   public setSuggestedBid(index: number, suggestedBid: number) {
-    this.keywords.value[index].bid = suggestedBid;
-    this.keywords.setValue(this.keywords.value);
+    let rawValue = [...this.keywords.getRawValue()];
+    rawValue[index].bid = suggestedBid;
+    this.keywords.setValue(rawValue);
   }
 }

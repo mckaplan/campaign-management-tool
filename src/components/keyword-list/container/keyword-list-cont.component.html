@@ -1,4 +1,4 @@
-<div class="keywordList">
+<div class="product-keywords">
   <h1>Keywords</h1>
   <div id="keyword-action-group">
     <app-action-group-pres
@@ -8,7 +8,7 @@
     </app-action-group-pres>
   </div>
 
-  <div id="keyword-item-list" *ngTemplateOutlet="(keywordList | async)?.length ? keywordPage : noKeyword">
+  <div id="keyword-item-list" *ngTemplateOutlet="(productKeywords | async)?.length ? keywordPage : noKeyword">
 
   </div>
   <div id="buttons-group">
@@ -21,8 +21,8 @@
 
 <ng-template #keywordPage>
   <app-keyword-list-pres
-  [keywordList]='(keywordList | async)'
-  (keywordListChanged)="getKeywordList($event)">
+  [productKeywords]='(productKeywords | async)'
+  (productKeywordsChanged)="getProductKeywords($event)">
 </app-keyword-list-pres>
 </ng-template>
 

@@ -33,8 +33,8 @@ export const First: Story = {
     campaigns: [{
       name: 'Holiday Favorites',
       status: 'running',
-      startDate: '11/11/2020',
-      endDate: '11/11/2023',
+      startDate: new Date(),
+      endDate: new Date(),
       impression: 7,
       clicks: 1,
       acos: 12
@@ -42,8 +42,8 @@ export const First: Story = {
     {
       name: 'Holiday Favorites',
       status: 'running',
-      startDate: '11/11/2020',
-      endDate: '11/11/2023',
+      startDate: new Date(),
+      endDate: new Date(),
       impression: 8,
       clicks:2,
       acos: 12
@@ -51,8 +51,8 @@ export const First: Story = {
     {
       name: 'Holiday Favorites',
       status: 'running',
-      startDate: '10/10/2020',
-      endDate: '10/10/2023',
+      startDate: new Date(),
+      endDate: new Date(),
       impression: 7,
       clicks: 1,
       acos: 12

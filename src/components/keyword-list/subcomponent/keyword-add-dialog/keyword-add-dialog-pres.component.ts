@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface DialogData {
@@ -8,7 +8,8 @@ export interface DialogData {
 @Component({
   selector: 'app-keyword-add-dialog-pres',
   templateUrl: './keyword-add-dialog-pres.component.html',
-  styleUrls: ['./keyword-add-dialog-pres.component.scss']
+  styleUrls: ['./keyword-add-dialog-pres.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeywordAddDialogPresComponent {
 

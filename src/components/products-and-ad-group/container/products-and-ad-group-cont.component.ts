@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { AdProducts } from 'src/models/AdProducts.model';
-import { Product } from 'src/models/Product.model';
-import { ProductService } from 'src/services/product.service';
+import { AdProducts } from 'src/models/adProducts.model';
+import { Product } from 'src/models/product.model';
+import { ProductService } from 'src/services';
 
 @Component({
   selector: 'app-products-and-ad-group-cont',
@@ -16,7 +16,7 @@ export class ProductsAndAdGroupContComponent implements OnInit {
   products:  Observable<Product[]>;
 
   addClick$ = new Subject<Product>();
-  
+
 
   constructor(private productService: ProductService) { }
 
@@ -33,7 +33,7 @@ export class ProductsAndAdGroupContComponent implements OnInit {
 
   onAddClick(product: Product) {
     product.added = !product.added;
-    
+
     if(product.added) {
       this.addClick$.next(product);
     } else {

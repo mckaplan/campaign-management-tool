@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-action-group-pres',
   templateUrl: './action-group-pres.component.html',
-  styleUrls: ['./action-group-pres.component.scss']
+  styleUrls: ['./action-group-pres.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionGroupPresComponent {
   /**

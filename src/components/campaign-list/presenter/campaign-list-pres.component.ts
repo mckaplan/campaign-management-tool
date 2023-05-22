@@ -1,12 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Campaign } from 'src/models';
 
 @Component({
   selector: 'app-campaign-list-pres',
   templateUrl: './campaign-list-pres.component.html',
-  styleUrls: ['./campaign-list-pres.component.scss']
+  styleUrls: ['./campaign-list-pres.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CampaignListPresComponent {
   @Input()
@@ -34,5 +35,17 @@ export class CampaignListPresComponent {
     this.isAllSelected() ?
         this.selection.clear() :
         this.campaigns!.forEach(row => this.selection.select(row));
+  }
+
+  getTotalImpression() {
+    return this.campaigns?.map((campaign) => campaign.impression).reduce((acc,curr) => acc+curr,0);
+  }
+
+  getTotalClicks() {
+    return this.campaigns?.map((campaign) => campaign.clicks).reduce((acc,curr) => acc+curr,0);
+  }
+
+  getTotalAcos(){
+    return this.campaigns?.map((campaign) => campaign.acos).reduce((acc,curr) => acc+curr,0);
   }
 }

@@ -12,46 +12,55 @@
                     [checked]="selection.isSelected(row)">
       </mat-checkbox>
     </td>
+    <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Campaign Name </th>
-    <td mat-cell *matCellDef="let campaign"> {{campaign.name}} </td>
+    <td mat-cell *matCellDef="let campaign" [class.hidden]="!campaign.isActive"> {{campaign.name}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
 
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef> Status </th>
-    <td mat-cell *matCellDef="let campaign"> {{campaign.status}} </td>
+    <td mat-cell *matCellDef="let campaign" [class.hidden]="!campaign.isActive"> {{campaign.status}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
 
   <ng-container matColumnDef="startDate">
     <th mat-header-cell *matHeaderCellDef> Start Date </th>
-    <td mat-cell *matCellDef="let campaign"> {{campaign.startDate}} </td>
+    <td mat-cell *matCellDef="let campaign" [class.hidden]="!campaign.isActive"> {{campaign.startDate}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
 
   <ng-container matColumnDef="endDate">
     <th mat-header-cell *matHeaderCellDef> End Date </th>
-    <td mat-cell *matCellDef="let campaign"> {{campaign.endDate}} </td>
+    <td mat-cell *matCellDef="let campaign" [class.hidden]="!campaign.isActive"> {{campaign.endDate}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
   <ng-container matColumnDef="impression">
     <th mat-header-cell *matHeaderCellDef> Impression </th>
-    <td mat-cell *matCellDef="let campaign"> {{campaign.impression}} </td>
+    <td mat-cell *matCellDef="let campaign" [class.hidden]="!campaign.isActive"> {{campaign.impression}} </td>
+    <td mat-footer-cell *matFooterCellDef>{{getTotalImpression()}}</td>
   </ng-container>
 
   <ng-container matColumnDef="clicks">
     <th mat-header-cell *matHeaderCellDef> Clicks </th>
-    <td mat-cell *matCellDef="let campaign"> {{campaign.clicks}} </td>
+    <td mat-cell *matCellDef="let campaign" [class.hidden]="!campaign.isActive"> {{campaign.clicks}} </td>
+    <td mat-footer-cell *matFooterCellDef>{{getTotalClicks()}}</td>
   </ng-container>
 
   <ng-container matColumnDef="acos">
     <th mat-header-cell *matHeaderCellDef> AcoS </th>
-    <td mat-cell *matCellDef="let campaign"> {{campaign.acos}} </td>
+    <td mat-cell *matCellDef="let campaign" [class.hidden]="!campaign.isActive"> {{campaign.acos}} </td>
+    <td mat-footer-cell *matFooterCellDef>{{getTotalAcos()}}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 </table>
