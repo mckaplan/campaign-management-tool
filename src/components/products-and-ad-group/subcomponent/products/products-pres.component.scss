@@ -1,0 +1,41 @@
+.products-pres {
+    height: 100%;
+
+    mat-card-content {
+        display: flex;
+        flex-wrap: wrap;
+
+        .product-container {
+            .products {
+                height: 200px;
+                width: 400px;
+                box-sizing: border-box;
+                padding: 10px;
+
+                .card-spacing {
+                    margin-bottom: 10px;
+                    width: 300px;
+                    height: 100%;
+
+                    mat-card-header {
+                        mat-card-title {
+                            font-size: 14px;
+                        }
+                    }
+
+                    mat-card-content {
+                        font-size: 12px;
+                        display: flex;
+                        justify-content: space-between;
+                        flex-direction: column;
+
+                        .buttons {
+                            display: flex;
+                            justify-content: flex-end;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

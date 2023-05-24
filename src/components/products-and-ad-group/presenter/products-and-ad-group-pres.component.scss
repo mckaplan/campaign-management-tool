@@ -1,0 +1,21 @@
+h2 {
+    text-align: left;
+    font-size: 40px;
+    margin: 40px 0;
+}
+
+div {
+    width: 80%;
+    margin: 0;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: left;
+
+        mat-form-field {
+            width: 50%;
+        }
+    }
+}

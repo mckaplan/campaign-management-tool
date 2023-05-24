@@ -1,10 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { CampaignDetail } from 'src/models/campaignDetail.model';
@@ -19,6 +17,8 @@ export class CampaignDetailPresComponent implements OnInit{
   campaignDetail: CampaignDetail;
   dateError: string;
   control: FormControl;
+  invalidDate: boolean = false;
+  invalidBudget: boolean = false;
 
   @Output() formSubmit: EventEmitter<CampaignDetail> =
     new EventEmitter<CampaignDetail>();
@@ -29,12 +29,16 @@ export class CampaignDetailPresComponent implements OnInit{
   public cancelButtonClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private formBuilder: FormBuilder) {
-    this.campaignForm = this.formBuilder.group({
+    this.campaignForm = this.formBuilder.group(      {
       campaignName: new FormControl('', Validators.required),
       dailyBudget: new FormControl('', Validators.required),
       startDate: new FormControl<Date | null>(null, [Validators.required]),
       endDate: new FormControl<Date | null>(null, [Validators.required]),
-    });
+    },
+    { validators: [this.dateValidator, this.budgetValidator] } 
+  );
+
+
     this.campaignForm.valueChanges.subscribe(
       (result) => (this.campaignDetail = result)
     );
@@ -47,12 +51,27 @@ export class CampaignDetailPresComponent implements OnInit{
       console.log('form submitted');
   }
 
-  dateValidator(control: FormControl): ValidationErrors | null {
-    const startDate = control.get('startDate')?.value;
-    const endDate = control.get('endDate')?.value;
+  dateValidator = (group: FormGroup): {[key: string]: boolean} | null => {
+    const startDate = group.get('startDate')?.value;
+    const endDate = group.get('endDate')?.value;
+  
+    if (startDate && endDate && startDate >= endDate) {
+      console.log('Invalid Date');
+      this.invalidDate = true;
+    } else {
+      this.invalidDate = false;
+    }
+    return null;
+  }
 
-    if (startDate === endDate || startDate > endDate) {
-      return { 'wrongDate': true };
+  budgetValidator = (group: FormGroup): {[key: string]: boolean} | null => {
+    const budget = group.get('dailyBudget')?.value;
+
+    if(budget && budget < 1) {
+      console.log('Invalid budget');
+      this.invalidBudget = true;
+    } else {
+      this.invalidBudget = false;
     }
     return null;
   }

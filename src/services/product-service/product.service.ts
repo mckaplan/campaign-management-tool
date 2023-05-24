@@ -12,7 +12,7 @@ export class ProductService {
     { id: 5, name: 'Product 5', price: 50, stock: 'In Stock', SKU: 'PM_1010', added: false }
   ];
 
-  getProducts(): Observable<Product[]> {
-    return of(this.products);
+  getProducts() {
+    return this.products;
   }
 }

@@ -1,14 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductsAndAdGroupPresComponent } from './products-and-ad-group-pres.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/components/shared';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-xdescribe('ProductsAndAdGroupPresComponent', () => {
+describe('ProductsAndAdGroupPresComponent', () => {
   let component: ProductsAndAdGroupPresComponent;
   let fixture: ComponentFixture<ProductsAndAdGroupPresComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProductsAndAdGroupPresComponent ]
+      declarations: [ ProductsAndAdGroupPresComponent ],
+      imports: [FormsModule, ReactiveFormsModule, SharedModule, BrowserAnimationsModule],
     })
     .compileComponents();
 
@@ -19,5 +23,14 @@ xdescribe('ProductsAndAdGroupPresComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have a value in adProductsForm after setting a value', () => {
+    const testValue = 'Test Ad Group';
+    component.adProductsForm.setValue({ adGroupName: testValue });
+
+    const formValue = component.adProductsForm.value;
+
+    expect(formValue.adGroupName).toBe(testValue);
   });
 });

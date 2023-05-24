@@ -1,0 +1,28 @@
+<div class="products-pres" *ngIf="products">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Product List</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <div class="product-container">
+        <div class="products" *ngFor="let product of products">
+          <mat-card class="card-spacing">
+            <mat-card-header>
+              <mat-card-title class="name">{{ product.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ product.price }}$ | {{product.stock}} | SKU: {{product.SKU}}</p>
+              <div class="buttons">
+                <button mat-raised-button [color]="product.added ? 'warn' : 'primary'" (click)="onAddClick(product)">
+                  {{product.added ? 'Remove' : 'Add'}}
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
