@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription, map } from 'rxjs';
 import { CampaignType } from 'src/models';
 import { getCampaignTypes, selectAllCampaignTypes, setCampaignTypeID } from '../../../store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-campaign-type-cont',
@@ -26,7 +27,9 @@ export class CampaignTypeContComponent implements OnInit, OnDestroy {
    */
   private subscriptions: Subscription[] = [];
 
-  constructor(private readonly store: Store) {
+  constructor(
+    private readonly store: Store,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -59,5 +62,6 @@ export class CampaignTypeContComponent implements OnInit, OnDestroy {
    */
   onContinueBtnClicked(id: any) {
     this.store.dispatch(setCampaignTypeID({ id }));
+    this.router.navigate(['/campaign-detail']);
   }
 }

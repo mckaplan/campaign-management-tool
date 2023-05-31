@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subscription, filter, map, take } from 'rx
 import { Store } from '@ngrx/store';
 import { getKeywords, setProductKeywords, selectAllKeywords, selectProductKeywords } from '../../../store';
 import { Keyword, ProductKeyword } from 'src/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-keyword-list-cont',
@@ -40,7 +41,8 @@ export class KeywordListContComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly store: Store
+    private readonly store: Store,
+    private router: Router,
   ) {
     this.store.dispatch(getKeywords());
 
@@ -122,7 +124,7 @@ export class KeywordListContComponent implements OnInit, OnDestroy {
   public continueButton(e: any) {
     if(this.productKeywordsSubject.value.length)
     {
-      //redirect
+      this.router.navigate(['/campaign-list']);
     }
   }
 

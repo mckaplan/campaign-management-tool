@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription, filter, map, take } from 'rxjs';
 import { AdGroupAndProducts, Product } from 'src/models';
 import { getAdGroupProducts, selectAllAdGroupProducts, setAdGroupAndProducts } from 'src/store';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-products-and-ad-group-cont',
@@ -41,7 +43,10 @@ export class ProductsAndAdGroupContComponent implements OnInit, OnDestroy {
    */
   private subscriptions: Subscription[] = [];
 
-  constructor(private readonly store: Store) {
+  constructor(
+    private readonly store: Store,
+    private router: Router
+    ) {
     this.store.dispatch(getAdGroupProducts());
 
     this.subscriptions.push(
@@ -108,6 +113,7 @@ export class ProductsAndAdGroupContComponent implements OnInit, OnDestroy {
 
     if (adGroupAndProducts.adGroupName.length && adGroupAndProducts.products.length) {
       this.store.dispatch(setAdGroupAndProducts({ adGroupAndProducts }));
+      this.router.navigate(['/keyword-list']);
     }
   }
 
