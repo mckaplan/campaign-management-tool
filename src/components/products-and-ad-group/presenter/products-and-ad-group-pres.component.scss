@@ -1,21 +1,38 @@
-h2 {
-    text-align: left;
-    font-size: 40px;
-    margin: 40px 0;
+h1 {
+  text-align: left;
+  margin: 1rem 0;
 }
 
 div {
-    width: 80%;
-    margin: 0;
+  width: 100%;
+  margin: 0;
 
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        text-align: left;
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
 
-        mat-form-field {
-            width: 50%;
-        }
+    mat-form-field {
+      width: 50%;
     }
+  }
+}
+
+.container {
+  display: flex;
+  height: 600px;
+  overflow-y: auto;
+}
+
+
+mat-divider {
+  margin-right: 1rem;
+  height: 100%;
+}
+
+.left-panel,
+.right-panel {
+  flex: 1;
+  padding: 1rem 1rem 1rem 0;
 }

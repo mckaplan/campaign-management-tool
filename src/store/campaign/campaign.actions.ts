@@ -1,4 +1,5 @@
 import { createAction, props, } from "@ngrx/store";
+import { CampaignDetail } from "src/models";
 
 /**
  * Actions
@@ -16,6 +17,13 @@ export const SET_PRODUCTS_KEYWORDS = '[Product Keywords] Set Product Keywords';
 export const GET_CAMPAIGNS = '[Campaigns] Get Campaigns';
 export const GET_CAMPAIGNS_SUCCESS = '[Campaigns] Get Campaigns Success';
 export const GET_CAMPAIGNS_FAILURE = '[Campaigns] Get Campaigns Failure';
+
+export const SET_CAMPAIGN_DETAIL = '[Campaign Detail] Set Campaign Detail info';
+
+export const GET_AD_GROUP_PRODUCTS = '[Ad Group Products] Get Ad Group Products';
+export const GET_AD_GROUP_PRODUCTS_SUCCESS = '[Ad Group Products] Get Ad Group Products Success';
+export const GET_AD_GROUP_PRODUCTS_FAILURE = '[Ad Group Products] Get Ad Group Products Failure';
+export const SET_AD_GROUP_AND_PRODUCTS = '[Ad Group And Products] Set Ad Group And Products';
 
 /**
  * Get all campaign types from api
@@ -100,4 +108,43 @@ export const getCampaignsSuccess = createAction(
 export const getCampaignsFailure = createAction(
   GET_CAMPAIGNS_FAILURE,
   props<{ any: any }>()
+);
+
+/**
+ * Set selected campaign type id in store
+ */
+export const setCampaignDetail = createAction(
+  SET_CAMPAIGN_DETAIL,
+  props<{ detail: CampaignDetail }>()
+);
+
+/**
+ * Get all defined ad group products from api
+ */
+export const getAdGroupProducts = createAction(
+  GET_AD_GROUP_PRODUCTS
+);
+
+/**
+ * Set ad group products in store
+ */
+export const getAdGroupProductsSuccess = createAction(
+  GET_AD_GROUP_PRODUCTS_SUCCESS,
+  props<any>()
+);
+
+/**
+ * Get Error from api/adGroupProduct end point
+ */
+export const getAdGroupProductsFailure = createAction(
+  GET_AD_GROUP_PRODUCTS_FAILURE,
+  props<{ any: any }>()
+);
+
+/**
+ * Set selected ad group and products data in store
+ */
+export const setAdGroupAndProducts = createAction(
+  SET_AD_GROUP_AND_PRODUCTS,
+  props<{ adGroupAndProducts: any }>()
 );

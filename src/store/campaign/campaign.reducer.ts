@@ -1,7 +1,7 @@
-import { CampaignType, Keyword, ProductKeyword } from '../../models';
+import { AdGroupAndProducts, CampaignType, Keyword, Product, ProductKeyword } from '../../models';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as campaignActions from './campaign.actions';
-import { CampaignDetail } from 'src/models/campaignDetail.model';
+import { CampaignDetail } from 'src/models/campaign-detail.model';
 
 /**
  * Campaign State
@@ -10,7 +10,10 @@ export interface CampaignState {
   campaignTypes?: CampaignType[];
   keywords?: Keyword[];
   productKeywords?: ProductKeyword[];
+  adGroupProducts?: Product[];
   campaigns?: CampaignDetail[];
+  adGroupAndProducts?: AdGroupAndProducts;
+  currentCampaignDetail?: CampaignDetail;
   currentCampaignID?: any;
   isLoading?: boolean;
   isLoadingSuccess?: boolean;
@@ -24,7 +27,10 @@ export const initialCampaignState: CampaignState = {
   campaignTypes: [],
   keywords: [],
   productKeywords: [],
-  campaigns:[],
+  campaigns: [],
+  adGroupProducts: [],
+  adGroupAndProducts: { adGroupName: '', products: [] },
+  currentCampaignDetail: {} as CampaignDetail,
   currentCampaignID: 0,
   isLoading: false,
   isLoadingFailure: false,
@@ -37,13 +43,17 @@ export const initialCampaignState: CampaignState = {
 export const campaignReducer = createReducer(
   initialCampaignState,
   on(campaignActions.getCampaignTypes, (state) => ({ ...state, isLoading: true })),
-  on(campaignActions.getCampaignTypesSuccess, (state, result) => ({ ...state, campaignTypes: result.payload})),
+  on(campaignActions.getCampaignTypesSuccess, (state, result) => ({ ...state, campaignTypes: result.payload })),
   on(campaignActions.setCampaignTypeID, (state, result) => ({ ...state, currentCampaignID: result.id })),
   on(campaignActions.getKeywords, (state) => ({ ...state, isLoading: true })),
-  on(campaignActions.getKeywordsSuccess, (state, result) => ({ ...state, keywords: result.payload})),
-  on(campaignActions.setProductKeywords, (state, result) => ({ ...state, productKeywords : result.keywords })),
+  on(campaignActions.getKeywordsSuccess, (state, result) => ({ ...state, keywords: result.payload })),
+  on(campaignActions.setProductKeywords, (state, result) => ({ ...state, productKeywords: result.keywords })),
+  on(campaignActions.setCampaignDetail, (state, result) => ({ ...state, currentCampaignDetail: result.detail })),
   on(campaignActions.getCampaigns, (state) => ({ ...state, isLoading: true })),
-  on(campaignActions.getCampaignsSuccess, (state, result) => ({ ...state, campaigns: result.payload}))
+  on(campaignActions.getCampaignsSuccess, (state, result) => ({ ...state, campaigns: result.payload })),
+  on(campaignActions.getAdGroupProducts, (state) => ({ ...state, isLoading: true })),
+  on(campaignActions.getAdGroupProductsSuccess, (state, result) => ({ ...state, adGroupProducts: result.payload })),
+  on(campaignActions.setAdGroupAndProducts, (state, result) => ({ ...state, adGroupAndProducts: result.adGroupAndProducts })),
 );
 
 /**
@@ -107,5 +117,16 @@ export const getAllProductKeywords = (state: CampaignState) => {
 export const getAllCampaigns = (state: CampaignState) => {
   return {
     campaigns: state.campaigns
+  };
+};
+
+/**
+ *
+ * @param state current state
+ * @returns value of product ad group product list
+ */
+export const getAllAdGroupProducts = (state: CampaignState) => {
+  return {
+    adGroupProducts: state.adGroupProducts
   };
 };

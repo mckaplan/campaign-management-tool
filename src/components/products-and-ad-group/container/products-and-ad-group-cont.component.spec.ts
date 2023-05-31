@@ -2,38 +2,44 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductsAndAdGroupContComponent } from './products-and-ad-group-cont.component';
 import { ProductsAndAdGroupPresModule } from '../presenter/products-and-ad-group-pres.module';
-import { ProductsPresModule } from '../subcomponent/products';
 import { SharedModule } from 'src/components/shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ProductService } from 'src/services';
 import { Product } from 'src/models';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { selectAllAdGroupProducts, setAdGroupAndProducts } from 'src/store';
 
 describe('ProductsAndAdGroupContComponent', () => {
   let component: ProductsAndAdGroupContComponent;
   let fixture: ComponentFixture<ProductsAndAdGroupContComponent>;
-  let productService: jasmine.SpyObj<ProductService>;
+  let mockStore: MockStore;
+  let mockAdGroupProducts = {
+    adGroupProducts: [
+      { id: 1, name: 'Product 1', price: 10, stock: 'In Stock', SKU: 'PM_1010', added: false },
+      { id: 2, name: 'Product 2', price: 20, stock: 'In Stock', SKU: 'PM_1010', added: false },
+    ]
+  };
 
   beforeEach(async () => {
-    productService = jasmine.createSpyObj('ProductService', ['getProducts']);
-
     await TestBed.configureTestingModule({
-      declarations: [ProductsAndAdGroupContComponent],
-      imports: [ProductsAndAdGroupPresModule, ProductsPresModule, SharedModule, BrowserAnimationsModule],
-      providers: [{ provide: ProductService, useValue: productService }],
+      declarations: [
+        ProductsAndAdGroupContComponent
+      ],
+      imports: [
+        ProductsAndAdGroupPresModule,
+        SharedModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        provideMockStore()
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductsAndAdGroupContComponent);
     component = fixture.componentInstance;
-    productService.getProducts.and.returnValue([
-      {
-        id: 1,
-        name: 'Product 1', 
-        price: 100,
-        stock: 'In Stock',
-        SKU: 'SKU_1010',
-        added: false,
-      },
-    ]);
+    mockStore = TestBed.inject(MockStore);
+    mockStore.dispatch = jasmine.createSpy('dispatch');
+    mockStore.overrideSelector(selectAllAdGroupProducts, mockAdGroupProducts);
+    mockStore.refreshState();
     fixture.detectChanges();
   });
 
@@ -51,12 +57,11 @@ describe('ProductsAndAdGroupContComponent', () => {
       added: false,
     };
 
-    component.productsSubject.next([product]);
     component.onAddClick(product);
     fixture.detectChanges();
 
-    component.productsSubject.subscribe(result => {
-      expect(result.length).toBe(0);
+    component.products.subscribe(result => {
+      expect(result.length).toBe(1);
     });
   });
 
@@ -76,5 +81,26 @@ describe('ProductsAndAdGroupContComponent', () => {
     component.addedProducts.subscribe(result => {
       expect(result.length).toBe(0);
     })
+  });
+
+  it('should set ad group product after clicked continue button', () => {
+    const product: Product = {
+      id: 1,
+      name: 'Product 1',
+      price: 100,
+      stock: 'In Stock',
+      SKU: 'SKU_1010',
+      added: false,
+    };
+
+    component.adGroupName = 'test';
+    component.onAddClick(product);
+    component.continueButton(null);
+    product.added = true;
+    fixture.detectChanges();
+
+    expect(mockStore.dispatch).toHaveBeenCalledWith(setAdGroupAndProducts({
+      adGroupAndProducts: {adGroupName: component.adGroupName, products: [product]}
+    }));
   });
 });

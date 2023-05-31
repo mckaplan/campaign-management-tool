@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/components/shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 describe('HeaderPresComponent', () => {
   let component: HeaderPresComponent;
@@ -18,7 +19,8 @@ describe('HeaderPresComponent', () => {
         CommonModule,
         ReactiveFormsModule,
         SharedModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        AppRoutingModule
       ]
     })
       .compileComponents();

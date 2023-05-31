@@ -20,7 +20,7 @@ describe('HeaderContComponent', () => {
         SharedModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        HeaderPresModule
+        HeaderPresModule,
       ],
       providers: []
     })

@@ -27,7 +27,9 @@ describe('KeywordListPresComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [KeywordListPresComponent],
+      declarations: [
+        KeywordListPresComponent
+      ],
       imports: [
         CommonModule,
         BrowserModule,

@@ -1,15 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter } from 'rxjs';
 import { ProductKeyword } from 'src/models';
-export class FormErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-keyword-list-pres',
@@ -24,6 +17,9 @@ export class KeywordListPresComponent implements OnInit, OnChanges {
   @Input()
   public productKeywords: ProductKeyword[] | null = [];
 
+  /**
+   * Emit value of productKeywords if obj is changed
+   */
   @Output()
   public productKeywordsChanged: EventEmitter<ProductKeyword[]> = new EventEmitter<ProductKeyword[]>();
 

@@ -10,7 +10,9 @@ describe('ButtonsGroupPresComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ButtonsGroupPresComponent ],
+      declarations: [
+        ButtonsGroupPresComponent
+      ],
       imports: [
         CommonModule,
         SharedMaterialModule

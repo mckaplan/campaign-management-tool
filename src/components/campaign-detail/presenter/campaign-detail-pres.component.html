@@ -1,9 +1,12 @@
-<h2 class="header">Set Your Campaign Budget and Duration</h2>
+<h1 class="header">Set Your Campaign Budget and Duration</h1>
 <div class="form">
   <form [formGroup]="campaignForm" class="campaignForm">
     <mat-form-field class="campaignName" appearance="outline">
       <mat-label>Campaign Name</mat-label>
       <input matInput placeholder="Campaign Name" formControlName="campaignName" />
+      <mat-error>
+        * Campaign name is <strong>required</strong>
+      </mat-error>
     </mat-form-field>
     <mat-form-field class="dailyBudget" appearance="outline">
       <mat-label>Daily Budget</mat-label>
@@ -25,7 +28,7 @@
         <input matInput [matDatepicker]="picker1" formControlName="endDate" />
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>  
+      </mat-form-field>
     </div>
     <mat-error *ngIf="invalidDate">Please enter a valid date</mat-error>
   </form>

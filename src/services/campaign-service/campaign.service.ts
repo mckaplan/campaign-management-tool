@@ -6,10 +6,12 @@ import { map, shareReplay } from "rxjs/operators";
 
 @Injectable()
 export class CampaignService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
 
-  }
-
+  /**
+   * Retrieve data of campaign type from api
+   * @returns campaign type list
+   */
   getAllCampaignTypes() : Observable<CampaignType[]> {
     return this.http.get<CampaignType[]>('api/campaign-type')
     .pipe(
@@ -18,6 +20,10 @@ export class CampaignService {
     )
   }
 
+  /**
+   * Retrieve data of keywords from api
+   * @returns keyword list
+   */
   getKeywords() : Observable<Keyword[]> {
     return this.http.get<Keyword[]>('api/keywords')
     .pipe(
@@ -26,6 +32,10 @@ export class CampaignService {
     )
   }
 
+  /**
+   * Retrieve data of campaigns from api
+   * @returns campaign list
+   */
   getCampaigns() : Observable<Keyword[]> {
     return this.http.get<Keyword[]>('api/campaigns')
     .pipe(

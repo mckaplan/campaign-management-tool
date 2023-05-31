@@ -34,4 +34,10 @@ export const selectCampaigns = createSelector(
   campaignReducer.getAllCampaigns
 );
 
+/** Select ad group product list */
+export const selectAllAdGroupProducts = createSelector(
+  getCampaignState,
+  campaignReducer.getAllAdGroupProducts
+);
+
 

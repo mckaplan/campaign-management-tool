@@ -34,7 +34,7 @@ import { HeaderContModule } from './header';
     }),
     EffectsModule.forRoot([]),
     CampaignServiceModule,
-    ProductServiceModule
+    ProductServiceModule,
   ],
   exports: [SharedModule],
   providers: [],

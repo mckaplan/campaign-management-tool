@@ -19,5 +19,8 @@ export class ButtonsGroupPresComponent {
   @Output()
   public cancelButton: EventEmitter<void> = new EventEmitter<void>();
 
+  /**
+   * Output of continue button disabled
+   */
   @Input() disabled: boolean;
 }
