@@ -1,20 +1,13 @@
-<div>
-   <app-products-and-ad-group-pres (formSubmit)="onFormSubmit($event)">
-   </app-products-and-ad-group-pres>
-</div>
-
-<div class="container">
-   <div class="left-panel" *ngIf="products">
-      <app-products-pres [products]="(products | async)" (addClick)="onAddClick($event)"></app-products-pres>
-   </div>
-   <mat-divider [vertical]="true"></mat-divider>
-   <div class="right-panel">
-      <app-products-pres [products]="(addedProducts | async)" (addClick)="onAddClick($event)"></app-products-pres>
-   </div>
+<div class="products-and-ad-group">
+  <app-products-and-ad-group-pres
+    [products]="(products | async)"
+    [addedProducts]="(addedProducts | async)"
+    (formSubmit)="onFormSubmit($event)" (addClick)="onAddClick($event)">
+  </app-products-and-ad-group-pres>
 </div>
 <div id="buttons-group">
-   <app-buttons-group-pres (continueButton)="continueButton($event)" (cancelButton)="cancelButton($event)">
-   </app-buttons-group-pres>
+  <app-buttons-group-pres
+    (continueButton)="continueButton($event)"
+    (cancelButton)="cancelButton($event)">
+  </app-buttons-group-pres>
 </div>
-
-

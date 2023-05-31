@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, of } from "rxjs";
 import * as campaignActions from './campaign.actions';
-import { CampaignService } from "../../services";
+import { CampaignService, ProductService } from "../../services";
 
 
 @Injectable()
@@ -10,7 +10,8 @@ export class CampaignEffects {
 
   constructor(
     private actions$: Actions,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private productService: ProductService
   ) {}
 
   /**
@@ -57,6 +58,22 @@ export class CampaignEffects {
             return campaignActions.getCampaignsSuccess(response)
           }),
           catchError((error: any) => of(campaignActions.getCampaignsFailure(error))))
+      )
+    )
+  );
+
+  /**
+   * Set ad group products of State with reply content, dispatch getAdGroupProductsFailure if it catches a failure
+   */
+  getAdGroupProducts$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(campaignActions.getAdGroupProducts),
+      exhaustMap(action =>
+        this.productService.getProducts().pipe(
+          map(response => {
+            return campaignActions.getAdGroupProductsSuccess(response)
+          }),
+          catchError((error: any) => of(campaignActions.getAdGroupProductsFailure(error))))
       )
     )
   );

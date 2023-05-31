@@ -11,7 +11,9 @@ describe('ActionGroupPresComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ActionGroupPresComponent],
+      declarations: [
+        ActionGroupPresComponent
+      ],
       imports: [
         CommonModule,
         SharedMaterialModule,

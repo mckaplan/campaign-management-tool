@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KeywordAddDialogPresComponent } from '../subcomponent/keyword-add-dialog/keyword-add-dialog-pres.component';
-import { BehaviorSubject, Observable, filter, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, filter, map, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { getKeywords, setProductKeywords, selectAllKeywords, selectProductKeywords } from '../../../store';
 import { Keyword, ProductKeyword } from 'src/models';
@@ -12,7 +12,7 @@ import { Keyword, ProductKeyword } from 'src/models';
   styleUrls: ['./keyword-list-cont.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KeywordListContComponent implements OnInit {
+export class KeywordListContComponent implements OnInit, OnDestroy {
   /**
    *  product keyword list subject
    */
@@ -33,25 +33,36 @@ export class KeywordListContComponent implements OnInit {
    */
   private keywords: Keyword[];
 
+  /**
+   * List of subscriptions to unsubscribe on destroy
+   */
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly store: Store
   ) {
     this.store.dispatch(getKeywords());
 
-    this.store.select(selectAllKeywords)
-      .pipe(
-        filter((val) => !! val.keywords && val.keywords?.length > 0),
-        map((val) => val.keywords),
-        take(1)
-      )
-      .subscribe((keywords) => {
-        this.keywords = keywords!;
-      });
+    this.subscriptions.push(
+      this.store.select(selectAllKeywords)
+        .pipe(
+          filter((val) => !!val.keywords && val.keywords?.length > 0),
+          map((val) => val.keywords),
+          take(1)
+        )
+        .subscribe((keywords) => {
+          this.keywords = keywords!;
+        })
+    );
   }
 
   ngOnInit(): void {
 
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   /**
@@ -90,6 +101,7 @@ export class KeywordListContComponent implements OnInit {
     this.store.dispatch(setProductKeywords({
       keywords: keywordObjs
     }));
+
     this.productKeywordsSubject.next(keywordObjs);
   }
 
@@ -105,10 +117,13 @@ export class KeywordListContComponent implements OnInit {
 
   /**
    * redirect to next page
-   * @param e event value      y
+   * @param e event value
    */
   public continueButton(e: any) {
-
+    if(this.productKeywordsSubject.value.length)
+    {
+      //redirect
+    }
   }
 
   /**

@@ -69,6 +69,13 @@ describe('Campaign Store reducer', () => {
     ]
   };
 
+  const mockAdGroupProducts = {
+    payload: [
+      { id: 1, name: 'Product 1', price: 10, stock: 'In Stock', SKU: 'PM_1010', added: false },
+      { id: 2, name: 'Product 2', price: 20, stock: 'In Stock', SKU: 'PM_1010', added: false },
+    ]
+  };
+
   it('should by default return the initial state', () => {
     const state = campaignReducer(initialCampaignState, { type: 'fake' } as any);
 
@@ -88,6 +95,19 @@ describe('Campaign Store reducer', () => {
     expect(state.currentCampaignID).toEqual(1);
   });
 
+  it('should set selected current campaign id in state', () => {
+    const result = {
+      campaignName: 'test',
+      dailyBudget: 123,
+      startDate: new Date(),
+      endDate: new Date()
+    };
+
+    const state = campaignReducer(initialCampaignState, campaignActions.setCampaignDetail({ detail:  result}));
+
+    expect(state.currentCampaignDetail).toEqual(result);
+  });
+
   it('should set defined keywords in state coming form Api', () => {
     const state = campaignReducer(initialCampaignState, campaignActions.getKeywordsSuccess(mockKeywords));
     const bid = state.keywords?.[1].bid;
@@ -105,5 +125,11 @@ describe('Campaign Store reducer', () => {
     const state = campaignReducer(initialCampaignState, campaignActions.getCampaignsSuccess(mockCampaigns));
 
     expect(state.campaigns?.length).toEqual(2);
+  });
+
+  it('should set defined ad group products in state coming form Api', () => {
+    const state = campaignReducer(initialCampaignState, campaignActions.getAdGroupProductsSuccess(mockAdGroupProducts));
+
+    expect(state.adGroupProducts?.length).toEqual(2);
   });
 });

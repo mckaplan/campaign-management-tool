@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Subscription, map } from 'rxjs';
 import { CampaignType } from 'src/models';
 import { getCampaignTypes, selectAllCampaignTypes, setCampaignTypeID } from '../../../store';
 
@@ -10,7 +10,7 @@ import { getCampaignTypes, selectAllCampaignTypes, setCampaignTypeID } from '../
   styleUrls: ['./campaign-type-cont.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CampaignTypeContComponent implements OnInit {
+export class CampaignTypeContComponent implements OnInit, OnDestroy {
   /**
    * campaignTypes subject
    */
@@ -21,6 +21,11 @@ export class CampaignTypeContComponent implements OnInit {
    */
   public campaignTypes = this.campaingTypesSubject.asObservable();
 
+  /**
+   * List of subscriptions to unsubscribe on destroy
+   */
+  private subscriptions: Subscription[] = [];
+
   constructor(private readonly store: Store) {
   }
 
@@ -28,23 +33,28 @@ export class CampaignTypeContComponent implements OnInit {
     this.InitData();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
   /**
    * Get initial of all campaign types data
    */
   public InitData() {
     this.store.dispatch(getCampaignTypes());
-
-    this.store.select(selectAllCampaignTypes)
-      .pipe(
-        map(types => types.campaignTypes)
-      )
-      .subscribe(res => {
-        this.campaingTypesSubject.next(res!);
-      });
+    this.subscriptions.push(
+      this.store.select(selectAllCampaignTypes)
+        .pipe(
+          map(types => types.campaignTypes)
+        )
+        .subscribe(res => {
+          this.campaingTypesSubject.next(res!);
+        })
+    );
   }
 
   /**
-   * Set campaign Id in store
+   * Set campaign Id in store and redirect other page
    * @param id value of campaign type id
    */
   onContinueBtnClicked(id: any) {

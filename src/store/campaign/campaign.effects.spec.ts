@@ -4,8 +4,8 @@ import { CampaignEffects } from "./campaign.effects";
 import { ReplaySubject, Subject, Subscription, of, throwError } from "rxjs";
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from "@ngrx/store";
-import { CampaignService } from "src/services";
-import { getCampaignTypes, getCampaigns, getKeywords } from "./campaign.actions";
+import { CampaignService, ProductService } from "src/services";
+import { getAdGroupProducts, getCampaignTypes, getCampaigns, getKeywords } from "./campaign.actions";
 import { HttpClientModule } from "@angular/common/http";
 
 describe('Campaign Effects', () => {
@@ -16,6 +16,8 @@ describe('Campaign Effects', () => {
   let actions: Subject<any>;
   const subscriptions: Subscription[] = [];
   let campaignService: CampaignService;
+  let productService: ProductService;
+
   const mockCampaignType = {
     payload: [
       {
@@ -47,6 +49,13 @@ describe('Campaign Effects', () => {
     ]
   };
 
+  const mockAdGroupProducts = {
+    payload: [
+      { id: 1, name: 'Product 1', price: 10, stock: 'In Stock', SKU: 'PM_1010', added: false },
+      { id: 2, name: 'Product 2', price: 20, stock: 'In Stock', SKU: 'PM_1010', added: false }
+    ]
+  };
+
   afterEach(() => subscriptions.forEach((subscription) => subscription.unsubscribe()));
 
   beforeEach(async () => {
@@ -57,11 +66,13 @@ describe('Campaign Effects', () => {
         CampaignEffects,
         provideMockActions(() => actions),
         CampaignService,
+        ProductService
       ]
     }).compileComponents();
 
     effect = TestBed.inject(CampaignEffects);
     campaignService = TestBed.inject(CampaignService);
+    productService = TestBed.inject(ProductService);
   });
 
   it('Check if effect is correctly injected', () => {
@@ -136,4 +147,29 @@ describe('Campaign Effects', () => {
       }
     ));
   });
+
+  it('should return getAdGroupProductsSuccess action', () => {
+    actions.next(getAdGroupProducts());
+    productService.getProducts = jasmine.createSpy('getAdGroupProducts').and.returnValue(of(mockAdGroupProducts));
+
+    subscriptions.push(effect.getAdGroupProducts$.subscribe(
+      (setFromApiAction: any) => {
+        expect(setFromApiAction.type).toBe('[Ad Group Products] Get Ad Group Products Success');
+        expect(setFromApiAction.payload).toEqual(mockAdGroupProducts.payload);
+      }
+    ));
+  });
+
+  it('should return getAdGroupProductsFailure action', () => {
+    actions.next(getAdGroupProducts());
+    productService.getProducts = jasmine.createSpy('getAdGroupProducts').and.returnValue(throwError(() => 'error'));
+
+    subscriptions.push(effect.getAdGroupProducts$.subscribe(
+      (setFromApiAction: any) => {
+        expect(setFromApiAction.type).toBe('[Ad Group Products] Get Ad Group Products Failure');
+      }
+    ));
+  });
+
+
 });

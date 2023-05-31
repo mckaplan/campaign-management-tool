@@ -5,12 +5,16 @@ import { CampaignDetailContComponent } from './campaign-detail-cont.component';
 import { SharedModule } from 'src/components/shared';
 
 @NgModule({
-  declarations: [CampaignDetailContComponent],
+  declarations: [
+    CampaignDetailContComponent
+  ],
   imports: [
     CommonModule,
     CampaignDetailPresModule,
     SharedModule
   ],
-  exports: [CampaignDetailContComponent]
+  exports: [
+    CampaignDetailContComponent
+  ]
 })
 export class CampaignDetailContModule { }

@@ -1,4 +1,4 @@
-<h2>Settings</h2>
+<h1>Settings</h1>
 <div>
   <form [formGroup]="adProductsForm">
     <mat-form-field appearance="outline">
@@ -6,4 +6,13 @@
       <input matInput placeholder="Ad Group Name" formControlName="adGroupName" />
     </mat-form-field>
   </form>
+</div>
+<div class="container" *ngIf="products">
+  <div class="left-panel" >
+     <app-products-pres [title]="'Product List'" [products]='products' (addClick)="onAddClick($event)"></app-products-pres>
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div class="right-panel">
+     <app-products-pres [title]="'Added Product'" [products]='addedProducts' (addClick)="onAddClick($event)"></app-products-pres>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { getCampaignState, getCurrentCampaignId, selectAllCampaignTypes, selectAllKeywords, selectCampaigns, selectProductKeywords } from "./campaign.selectors";
+import { getCampaignState, getCurrentCampaignId, selectAllAdGroupProducts, selectAllCampaignTypes, selectAllKeywords, selectCampaigns, selectProductKeywords } from "./campaign.selectors";
 
 
 describe('Campaign Store Selector test', () => {
@@ -52,6 +52,11 @@ describe('Campaign Store Selector test', () => {
     }
   ];
 
+  const mockAdGroupProducts = [
+    { id: 1, name: 'Product 1', price: 10, stock: 'In Stock', SKU: 'PM_1010', added: false },
+    { id: 2, name: 'Product 2', price: 20, stock: 'In Stock', SKU: 'PM_1010', added: false },
+  ];
+
   const fakeStore = {
     campaign:
     {
@@ -59,6 +64,8 @@ describe('Campaign Store Selector test', () => {
       keywords: mockKeywords,
       productKeywords: mockProductKeywords,
       campaigns: mockCampaigns,
+      adGroupProducts: mockAdGroupProducts,
+      adGroupAndProducts: { adGroupName: 'test', products: mockAdGroupProducts },
       currentCampaignID: 3,
       isLoading: false,
       isLoadingFailure: false,
@@ -98,5 +105,11 @@ describe('Campaign Store Selector test', () => {
     const state = selectCampaigns.projector(fakeStore.campaign);
 
     expect(state.campaigns?.length).toEqual(2);
+  });
+
+  it('should return all defined ad group products', () => {
+    const state = selectAllAdGroupProducts.projector(fakeStore.campaign);
+
+    expect(state.adGroupProducts?.length).toEqual(2);
   });
 });

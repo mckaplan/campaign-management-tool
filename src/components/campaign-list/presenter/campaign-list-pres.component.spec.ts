@@ -40,7 +40,9 @@ describe('CampaignListPresComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CampaignListPresComponent],
+      declarations: [
+        CampaignListPresComponent
+      ],
       imports: [
         CommonModule,
         ReactiveFormsModule,

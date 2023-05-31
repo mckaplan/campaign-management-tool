@@ -4,6 +4,7 @@ import { ProductsAndAdGroupPresComponent } from './products-and-ad-group-pres.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/components/shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProductsPresModule } from '../subcomponent/products';
 
 describe('ProductsAndAdGroupPresComponent', () => {
   let component: ProductsAndAdGroupPresComponent;
@@ -11,8 +12,16 @@ describe('ProductsAndAdGroupPresComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProductsAndAdGroupPresComponent ],
-      imports: [FormsModule, ReactiveFormsModule, SharedModule, BrowserAnimationsModule],
+      declarations: [
+        ProductsAndAdGroupPresComponent
+      ],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        BrowserAnimationsModule,
+        ProductsPresModule
+      ],
     })
     .compileComponents();
 
