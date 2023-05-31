@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { CampaignDetail } from 'src/models/campaign-detail.model';
 import { setCampaignDetail } from 'src/store';
+import { Router } from '@angular/router';
+import { CampaignDetail } from 'src/models';
 
 @Component({
   selector: 'app-campaign-detail-cont',
@@ -26,7 +27,9 @@ export class CampaignDetailContComponent implements OnDestroy {
   */
   private subscriptions: Subscription[] = [];
 
-  constructor(private readonly store: Store) {
+  constructor(
+    private readonly store: Store,
+    private router: Router) {
   }
 
   ngOnDestroy(): void {
@@ -47,6 +50,7 @@ export class CampaignDetailContComponent implements OnDestroy {
    */
   public continueButton(e: any) {
     this.store.dispatch(setCampaignDetail({ detail: this.campaignDetail }));
+    this.router.navigate(['/products-and-ad-group']);
   }
 
   /**

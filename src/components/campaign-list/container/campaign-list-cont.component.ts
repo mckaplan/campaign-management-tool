@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription, filter, map, take } from 'rxjs';
 import { Campaign } from 'src/models';
 import { getCampaigns, selectCampaigns } from '../../../store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-campaign-list-cont',
@@ -27,7 +28,8 @@ export class CampaignListContComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private readonly store: Store
+    private readonly store: Store,
+    private router: Router
   ) {
     this.store.dispatch(getCampaigns());
   }
@@ -66,7 +68,7 @@ export class CampaignListContComponent implements OnInit, OnDestroy {
    * @param e
    */
   createCampaign(e: any) {
-
+    this.router.navigate(['/campaign-type'])
   }
 
   /**
