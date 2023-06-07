@@ -6,3 +6,5 @@ export * from './product.model';
 export * from './user.model';
 export * from './campaign-detail.model';
 export * from './ad-group-and-product.model';
+export * from './response-model';
+export * from './error.model';

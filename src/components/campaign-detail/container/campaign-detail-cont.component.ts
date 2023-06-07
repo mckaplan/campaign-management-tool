@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { setCampaignDetail } from 'src/store';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Subscription, filter } from 'rxjs';
+import { selectError, setCampaignDetail } from 'src/store';
 import { Router } from '@angular/router';
 import { CampaignDetail } from 'src/models';
+import { ErrorService } from 'src/services';
 
 @Component({
   selector: 'app-campaign-detail-cont',
@@ -11,7 +12,7 @@ import { CampaignDetail } from 'src/models';
   styleUrls: ['./campaign-detail-cont.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CampaignDetailContComponent implements OnDestroy {
+export class CampaignDetailContComponent implements OnInit, OnDestroy {
   /**
    * keep current campaign detail derived from formgroup
    */
@@ -29,10 +30,23 @@ export class CampaignDetailContComponent implements OnDestroy {
 
   constructor(
     private readonly store: Store,
+    private errorService: ErrorService,
     private router: Router) {
+    this.subscriptions.push(
+      this.store.pipe(select(selectError))
+        .pipe(
+          filter((err) => !!err.error),
+        ).subscribe(res => {
+          this.errorService.showErrorMessages(res.error!);
+        })
+    );
+  }
+
+  ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
+    this.errorService.clearErrorMessages();
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
@@ -49,8 +63,13 @@ export class CampaignDetailContComponent implements OnDestroy {
    * @param e event value
    */
   public continueButton(e: any) {
-    this.store.dispatch(setCampaignDetail({ detail: this.campaignDetail }));
-    this.router.navigate(['/products-and-ad-group']);
+    if (!!this.campaignDetail.campaignName) {
+      this.store.dispatch(setCampaignDetail({ detail: this.campaignDetail }));
+      this.router.navigate(['/products-and-ad-group']);
+    }
+    else {
+      this.errorService.showErrorMessages('Please fill required field(s)')
+    }
   }
 
   /**

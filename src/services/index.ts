@@ -1,2 +1,2 @@
 export * from './campaign-service';
-export * from './product-service';
+export * from './error-service';

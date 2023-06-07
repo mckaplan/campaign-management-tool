@@ -29,7 +29,7 @@ describe('KeywordListContComponent', () => {
   };
 
   let mockProductKeywordss = {
-    productKeywords: [{
+    selectedProductKeywords: [{
       name: 'test1',
       bid: 0,
       suggestedBid: 2,
@@ -43,7 +43,8 @@ describe('KeywordListContComponent', () => {
       matchType: 'Exact',
       isActive: true
     }
-  ]};
+    ]
+};
 
   const afterClosedSubject$ = new ReplaySubject(1);
   const mockDialog = {

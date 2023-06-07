@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, of } from "rxjs";
 import * as campaignActions from './campaign.actions';
-import { CampaignService, ProductService } from "../../services";
+import { CampaignService } from "../../services";
 
 
 @Injectable()
@@ -11,7 +11,6 @@ export class CampaignEffects {
   constructor(
     private actions$: Actions,
     private campaignService: CampaignService,
-    private productService: ProductService
   ) {}
 
   /**
@@ -69,7 +68,7 @@ export class CampaignEffects {
     this.actions$.pipe(
       ofType(campaignActions.getAdGroupProducts),
       exhaustMap(action =>
-        this.productService.getProducts().pipe(
+        this.campaignService.getProducts().pipe(
           map(response => {
             return campaignActions.getAdGroupProductsSuccess(response)
           }),

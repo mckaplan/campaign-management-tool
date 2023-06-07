@@ -29,18 +29,14 @@ export class ProductsAndAdGroupPresComponent {
   @Input()
   addedProducts: Product[] | null = [];
 
-  @Output() formSubmit: EventEmitter<string> =
-    new EventEmitter<string>();
-  /**
-   * Output of cancel button click to redirect previous page
-   */
   @Output()
-  public cancelButtonClicked: EventEmitter<void> = new EventEmitter<void>();
+  formSubmit: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    *
    */
-  @Output() addClick: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output()
+  addClick: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor(private formBuilder: FormBuilder) {
     this.adProductsForm = this.formBuilder.group({
@@ -56,7 +52,6 @@ export class ProductsAndAdGroupPresComponent {
    */
   handleFormSubmit() {
     this.formSubmit.emit(this.adProducts);
-    console.log('form submitted');
   }
 
   /**

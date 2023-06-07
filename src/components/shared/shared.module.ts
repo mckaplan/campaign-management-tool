@@ -1,18 +1,21 @@
 import { NgModule } from "@angular/core";
+import { SharedMaterialModule } from "./sharedMaterial.module";
 import { ActionGroupPresModule } from "./action-group";
 import { ButtonsGroupPresModule } from "./buttons-group";
-import { SharedMaterialModule } from "./sharedMaterial.module";
+import { ErrorMessagesContModule } from "./error-messages";
 
 @NgModule({
   imports: [
     SharedMaterialModule,
     ActionGroupPresModule,
-    ButtonsGroupPresModule
+    ButtonsGroupPresModule,
+    ErrorMessagesContModule
   ],
   exports: [
     SharedMaterialModule,
     ActionGroupPresModule,
-    ButtonsGroupPresModule
+    ButtonsGroupPresModule,
+    ErrorMessagesContModule
   ]
 })
 export class SharedModule { }

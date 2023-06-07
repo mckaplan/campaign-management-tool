@@ -62,14 +62,11 @@ describe('Campaign Store Selector test', () => {
     {
       campaignTypes: mockCampaignType,
       keywords: mockKeywords,
-      productKeywords: mockProductKeywords,
+      selectedProductKeywords: mockProductKeywords,
       campaigns: mockCampaigns,
       adGroupProducts: mockAdGroupProducts,
-      adGroupAndProducts: { adGroupName: 'test', products: mockAdGroupProducts },
-      currentCampaignID: 3,
-      isLoading: false,
-      isLoadingFailure: false,
-      isLoadingSuccess: false
+      selectedAdGroupAndProducts: { adGroupName: 'test', products: mockAdGroupProducts },
+      selectedCampaignID: 3
     },
   } as any;
 
@@ -86,7 +83,7 @@ describe('Campaign Store Selector test', () => {
   it('should return selected current campaign id', () => {
     const state = getCurrentCampaignId.projector(fakeStore.campaign);
 
-    expect(state.currentCampaignID).toEqual(3);
+    expect(state.selectedCampaignID).toEqual(3);
   });
 
   it('should return defined keywords from api', () => {
@@ -98,7 +95,7 @@ describe('Campaign Store Selector test', () => {
   it('should return product keywords list', () => {
     const state = selectProductKeywords.projector(fakeStore.campaign);
 
-    expect(state.productKeywords?.length).toEqual(2);
+    expect(state.selectedProductKeywords?.length).toEqual(2);
   });
 
   it('should return all defined campaigns', () => {

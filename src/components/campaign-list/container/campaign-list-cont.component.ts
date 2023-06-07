@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { BehaviorSubject, Subscription, filter, map, take } from 'rxjs';
 import { Campaign } from 'src/models';
-import { getCampaigns, selectCampaigns } from '../../../store';
+import { getCampaigns, selectCampaigns, selectError } from '../../../store';
 import { Router } from '@angular/router';
+import { ErrorService } from 'src/services';
 
 @Component({
   selector: 'app-campaign-list-cont',
@@ -29,9 +30,19 @@ export class CampaignListContComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
+    private errorService: ErrorService,
     private router: Router
   ) {
     this.store.dispatch(getCampaigns());
+
+    this.subscriptions.push(
+      this.store.pipe(select(selectError))
+        .pipe(
+          filter((err) => !!err.error),
+        ).subscribe(res => {
+          this.errorService.showErrorMessages(res.error!);
+        })
+    );
   }
 
   ngOnInit(): void {
@@ -39,6 +50,7 @@ export class CampaignListContComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.errorService.clearErrorMessages();
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
@@ -48,9 +60,9 @@ export class CampaignListContComponent implements OnInit, OnDestroy {
    */
   public InitData(text?: string) {
     this.subscriptions.push(
-      this.store.select(selectCampaigns)
+      this.store.pipe(select(selectCampaigns))
         .pipe(
-          filter((val) => !!val.campaigns),
+          filter((val) => !!val.campaigns && val.campaigns.length > 0),
           map((val) => val.campaigns),
           take(1)
         )

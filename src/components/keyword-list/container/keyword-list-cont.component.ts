@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { MatDialog } from '@angular/material/dialog';
 import { KeywordAddDialogPresComponent } from '../subcomponent/keyword-add-dialog/keyword-add-dialog-pres.component';
 import { BehaviorSubject, Observable, Subscription, filter, map, take } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { getKeywords, setProductKeywords, selectAllKeywords, selectProductKeywords } from '../../../store';
+import { Store, select } from '@ngrx/store';
+import { getKeywords, setProductKeywords, selectAllKeywords, selectProductKeywords, selectError } from '../../../store';
 import { Keyword, ProductKeyword } from 'src/models';
 import { Router } from '@angular/router';
+import { ErrorService } from 'src/services';
 
 @Component({
   selector: 'app-keyword-list-cont',
@@ -42,12 +43,13 @@ export class KeywordListContComponent implements OnInit, OnDestroy {
   constructor(
     private readonly dialog: MatDialog,
     private readonly store: Store,
+    private errorService: ErrorService,
     private router: Router,
   ) {
     this.store.dispatch(getKeywords());
 
     this.subscriptions.push(
-      this.store.select(selectAllKeywords)
+      this.store.pipe(select(selectAllKeywords))
         .pipe(
           filter((val) => !!val.keywords && val.keywords?.length > 0),
           map((val) => val.keywords),
@@ -55,6 +57,12 @@ export class KeywordListContComponent implements OnInit, OnDestroy {
         )
         .subscribe((keywords) => {
           this.keywords = keywords!;
+        }),
+      this.store.pipe(select(selectError))
+        .pipe(
+          filter((err) => !!err.error),
+        ).subscribe(res => {
+          this.errorService.showErrorMessages(res.error!);
         })
     );
   }
@@ -64,6 +72,7 @@ export class KeywordListContComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.errorService.clearErrorMessages();
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
@@ -122,9 +131,11 @@ export class KeywordListContComponent implements OnInit, OnDestroy {
    * @param e event value
    */
   public continueButton(e: any) {
-    if(this.productKeywordsSubject.value.length)
-    {
+    if (this.productKeywordsSubject.value.length) {
       this.router.navigate(['/campaign-list']);
+    }
+    else {
+      this.errorService.showErrorMessages('Please add keywords');
     }
   }
 
@@ -141,11 +152,11 @@ export class KeywordListContComponent implements OnInit, OnDestroy {
    * @param e event value
    */
   public searchInputChanged(search: any) {
-    this.store.select(selectProductKeywords)
+    this.store.pipe(select(selectProductKeywords))
       .pipe(take(1))
       .subscribe(res => {
         let filterKey: ProductKeyword[] = [];
-        res.productKeywords!.forEach((val) => {
+        res.selectedProductKeywords!.forEach((val) => {
           let obj = Object.assign({}, val);
           obj.isActive = obj.name.indexOf(search) > -1;
           filterKey.push(obj);

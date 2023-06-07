@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsPresComponent } from './products-pres.component';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from 'src/components/shared';
 
 @NgModule({
   declarations: [ProductsPresComponent],
   imports: [
     CommonModule,
-    MatGridListModule,
-    MatCardModule,
-    MatDividerModule,
-    MatButtonModule
+    SharedModule
   ],
   exports: [ProductsPresComponent],
 })

@@ -25,6 +25,8 @@ export const GET_AD_GROUP_PRODUCTS_SUCCESS = '[Ad Group Products] Get Ad Group P
 export const GET_AD_GROUP_PRODUCTS_FAILURE = '[Ad Group Products] Get Ad Group Products Failure';
 export const SET_AD_GROUP_AND_PRODUCTS = '[Ad Group And Products] Set Ad Group And Products';
 
+export const RESET_CAMPAIGN_STATE = '[Reset Campaign] Reset Campaign state';
+
 /**
  * Get all campaign types from api
  */
@@ -45,7 +47,7 @@ export const getCampaignTypesSuccess = createAction(
  */
 export const getCampaignTypesFailure = createAction(
   GET_CAMPAIGN_TYPES_FAILURE,
-  props<{ any: any }>()
+  props<any>()
 );
 
 /**
@@ -76,7 +78,7 @@ export const getKeywordsSuccess = createAction(
  */
 export const getKeywordsFailure = createAction(
   GET_KEYWORDS_FAILURE,
-  props<{ any: any }>()
+  props<any>()
 );
 
 /**
@@ -107,7 +109,7 @@ export const getCampaignsSuccess = createAction(
  */
 export const getCampaignsFailure = createAction(
   GET_CAMPAIGNS_FAILURE,
-  props<{ any: any }>()
+  props<any>()
 );
 
 /**
@@ -138,7 +140,7 @@ export const getAdGroupProductsSuccess = createAction(
  */
 export const getAdGroupProductsFailure = createAction(
   GET_AD_GROUP_PRODUCTS_FAILURE,
-  props<{ any: any }>()
+  props<any>()
 );
 
 /**
@@ -147,4 +149,11 @@ export const getAdGroupProductsFailure = createAction(
 export const setAdGroupAndProducts = createAction(
   SET_AD_GROUP_AND_PRODUCTS,
   props<{ adGroupAndProducts: any }>()
+);
+
+/**
+ * Reset campaign state
+ */
+export const resetCampaignState = createAction(
+  RESET_CAMPAIGN_STATE
 );

@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription, filter, map, take } from 'rxjs';
 import { AdGroupAndProducts, Product } from 'src/models';
-import { getAdGroupProducts, selectAllAdGroupProducts, setAdGroupAndProducts } from 'src/store';
+import { getAdGroupProducts, selectAllAdGroupProducts, selectError, setAdGroupAndProducts } from 'src/store';
 import { Router } from '@angular/router';
+import { ErrorService } from 'src/services';
 
 
 @Component({
@@ -45,12 +46,13 @@ export class ProductsAndAdGroupContComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
+    private errorService: ErrorService,
     private router: Router
-    ) {
+  ) {
     this.store.dispatch(getAdGroupProducts());
 
     this.subscriptions.push(
-      this.store.select(selectAllAdGroupProducts)
+      this.store.pipe(select(selectAllAdGroupProducts))
         .pipe(
           filter((val) => !!val.adGroupProducts && val.adGroupProducts?.length > 0),
           map((val) => val.adGroupProducts),
@@ -58,6 +60,12 @@ export class ProductsAndAdGroupContComponent implements OnInit, OnDestroy {
         )
         .subscribe((adGroupProducts) => {
           this.productsSubject.next(adGroupProducts!);
+        }),
+      this.store.pipe(select(selectError))
+        .pipe(
+          filter((err) => !!err.error),
+        ).subscribe(res => {
+          this.errorService.showErrorMessages(res.error!);
         })
     );
   }
@@ -66,6 +74,7 @@ export class ProductsAndAdGroupContComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.errorService.clearErrorMessages();
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
@@ -114,6 +123,9 @@ export class ProductsAndAdGroupContComponent implements OnInit, OnDestroy {
     if (adGroupAndProducts.adGroupName.length && adGroupAndProducts.products.length) {
       this.store.dispatch(setAdGroupAndProducts({ adGroupAndProducts }));
       this.router.navigate(['/keyword-list']);
+    }
+    else {
+      this.errorService.showErrorMessages("Please fill group name and select added product");
     }
   }
 

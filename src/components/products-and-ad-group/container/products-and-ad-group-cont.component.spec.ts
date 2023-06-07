@@ -7,11 +7,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Product } from 'src/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { selectAllAdGroupProducts, setAdGroupAndProducts } from 'src/store';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('ProductsAndAdGroupContComponent', () => {
   let component: ProductsAndAdGroupContComponent;
   let fixture: ComponentFixture<ProductsAndAdGroupContComponent>;
   let mockStore: MockStore;
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
   let mockAdGroupProducts = {
     adGroupProducts: [
       { id: 1, name: 'Product 1', price: 10, stock: 'In Stock', SKU: 'PM_1010', added: false },
@@ -27,10 +33,13 @@ describe('ProductsAndAdGroupContComponent', () => {
       imports: [
         ProductsAndAdGroupPresModule,
         SharedModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        BrowserModule,
+        RouterTestingModule
       ],
       providers: [
-        provideMockStore()
+        provideMockStore(),
+        {provide: Router, useValue: mockRouter}
       ],
     }).compileComponents();
 
@@ -102,5 +111,7 @@ describe('ProductsAndAdGroupContComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(setAdGroupAndProducts({
       adGroupAndProducts: {adGroupName: component.adGroupName, products: [product]}
     }));
+
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/keyword-list']);
   });
 });

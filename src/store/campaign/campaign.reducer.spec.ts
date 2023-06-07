@@ -5,12 +5,9 @@ describe('Campaign Store reducer', () => {
   const initialCampaignState: CampaignState = {
     campaignTypes: [],
     keywords: [],
-    productKeywords: [],
+    selectedProductKeywords: [],
     campaigns: [],
-    currentCampaignID: 0,
-    isLoading: false,
-    isLoadingFailure: false,
-    isLoadingSuccess: false
+    selectedCampaignID: 0
   };
 
   const mockCampaignType = {
@@ -92,7 +89,7 @@ describe('Campaign Store reducer', () => {
   it('should set selected current campaign id in state', () => {
     const state = campaignReducer(initialCampaignState, campaignActions.setCampaignTypeID({ id: 1 }));
 
-    expect(state.currentCampaignID).toEqual(1);
+    expect(state.selectedCampaignID).toEqual(1);
   });
 
   it('should set selected current campaign id in state', () => {
@@ -105,7 +102,7 @@ describe('Campaign Store reducer', () => {
 
     const state = campaignReducer(initialCampaignState, campaignActions.setCampaignDetail({ detail:  result}));
 
-    expect(state.currentCampaignDetail).toEqual(result);
+    expect(state.selectedCampaignDetail).toEqual(result);
   });
 
   it('should set defined keywords in state coming form Api', () => {
@@ -118,7 +115,7 @@ describe('Campaign Store reducer', () => {
   it('should set keywords of products in state', () => {
     const state = campaignReducer(initialCampaignState, campaignActions.setProductKeywords({ keywords: mockProductKeywords }));
 
-    expect(state.productKeywords?.length).toEqual(2);
+    expect(state.selectedProductKeywords?.length).toEqual(2);
   });
 
   it('should set defined campaigns in state coming form Api', () => {

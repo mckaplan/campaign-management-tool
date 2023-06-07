@@ -1,3 +1,3 @@
 export * from './container'
 export * from './presenter'
-export * from './subcomponent/products'
+export * from './subcomponent';

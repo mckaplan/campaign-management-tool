@@ -3,13 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'src/components';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { CampaignStoreModule, metaReducers, reducers } from 'src/store';
 import { EffectsModule } from '@ngrx/effects';
-import { CampaignServiceModule, ProductServiceModule } from 'src/services';
+import { CampaignServiceModule, ErrorServiceModule } from 'src/services';
 import { HeaderContModule } from './header';
+import { SharedMaterialModule } from 'src/components';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { HeaderContModule } from './header';
     }),
     EffectsModule.forRoot([]),
     CampaignServiceModule,
-    ProductServiceModule,
+    ErrorServiceModule
   ],
   exports: [],
   providers: [],

@@ -19,24 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatCardModule,
-    MatGridListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDividerModule,
-    MatTableModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    MatCheckboxModule,
-    MatToolbarModule,
-    MatIconModule
+
   ],
   exports: [
     MatButtonModule,

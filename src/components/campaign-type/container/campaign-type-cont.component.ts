@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { BehaviorSubject, Subscription, map } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { BehaviorSubject, Subscription, filter, map } from 'rxjs';
 import { CampaignType } from 'src/models';
-import { getCampaignTypes, selectAllCampaignTypes, setCampaignTypeID } from '../../../store';
+import { getCampaignTypes, resetCampaignState, selectAllCampaignTypes, selectError, setCampaignTypeID } from '../../../store';
 import { Router } from '@angular/router';
+import { ErrorService } from 'src/services';
 
 @Component({
   selector: 'app-campaign-type-cont',
@@ -29,14 +30,25 @@ export class CampaignTypeContComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
+    private errorService: ErrorService,
     private router: Router) {
+      this.store.dispatch(resetCampaignState());
   }
 
   ngOnInit(): void {
     this.InitData();
+    this.subscriptions.push(
+      this.store.pipe(select(selectError))
+        .pipe(
+          filter((err) => !!err.error),
+        ).subscribe(res => {
+          this.errorService.showErrorMessages(res.error!);
+        })
+    );
   }
 
   ngOnDestroy(): void {
+    this.errorService.clearErrorMessages();
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
@@ -46,7 +58,7 @@ export class CampaignTypeContComponent implements OnInit, OnDestroy {
   public InitData() {
     this.store.dispatch(getCampaignTypes());
     this.subscriptions.push(
-      this.store.select(selectAllCampaignTypes)
+      this.store.pipe(select(selectAllCampaignTypes))
         .pipe(
           map(types => types.campaignTypes)
         )

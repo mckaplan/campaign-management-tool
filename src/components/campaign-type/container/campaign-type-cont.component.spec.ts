@@ -34,8 +34,6 @@ describe('CampaignTypeContComponent', () => {
         url: 'http://www.display.com'
       }
     ],
-    isLoading: false,
-    isLoadingSuccess: true
   };
 
   beforeEach(async () => {

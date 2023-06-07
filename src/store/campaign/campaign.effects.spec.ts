@@ -3,8 +3,7 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 import { CampaignEffects } from "./campaign.effects";
 import { ReplaySubject, Subject, Subscription, of, throwError } from "rxjs";
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store } from "@ngrx/store";
-import { CampaignService, ProductService } from "src/services";
+import { CampaignService } from "src/services";
 import { getAdGroupProducts, getCampaignTypes, getCampaigns, getKeywords } from "./campaign.actions";
 import { HttpClientModule } from "@angular/common/http";
 
@@ -16,7 +15,6 @@ describe('Campaign Effects', () => {
   let actions: Subject<any>;
   const subscriptions: Subscription[] = [];
   let campaignService: CampaignService;
-  let productService: ProductService;
 
   const mockCampaignType = {
     payload: [
@@ -66,13 +64,11 @@ describe('Campaign Effects', () => {
         CampaignEffects,
         provideMockActions(() => actions),
         CampaignService,
-        ProductService
       ]
     }).compileComponents();
 
     effect = TestBed.inject(CampaignEffects);
     campaignService = TestBed.inject(CampaignService);
-    productService = TestBed.inject(ProductService);
   });
 
   it('Check if effect is correctly injected', () => {
@@ -150,7 +146,7 @@ describe('Campaign Effects', () => {
 
   it('should return getAdGroupProductsSuccess action', () => {
     actions.next(getAdGroupProducts());
-    productService.getProducts = jasmine.createSpy('getAdGroupProducts').and.returnValue(of(mockAdGroupProducts));
+    campaignService.getProducts = jasmine.createSpy('getAdGroupProducts').and.returnValue(of(mockAdGroupProducts));
 
     subscriptions.push(effect.getAdGroupProducts$.subscribe(
       (setFromApiAction: any) => {
@@ -162,7 +158,7 @@ describe('Campaign Effects', () => {
 
   it('should return getAdGroupProductsFailure action', () => {
     actions.next(getAdGroupProducts());
-    productService.getProducts = jasmine.createSpy('getAdGroupProducts').and.returnValue(throwError(() => 'error'));
+    campaignService.getProducts = jasmine.createSpy('getAdGroupProducts').and.returnValue(throwError(() => 'error'));
 
     subscriptions.push(effect.getAdGroupProducts$.subscribe(
       (setFromApiAction: any) => {

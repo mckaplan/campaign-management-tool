@@ -7,11 +7,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CampaignDetailPresModule } from '../presenter';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { setCampaignDetail } from 'src/store';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('CampaignDetailContComponent', () => {
   let component: CampaignDetailContComponent;
   let fixture: ComponentFixture<CampaignDetailContComponent>;
   let mockStore: MockStore;
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -22,10 +28,13 @@ describe('CampaignDetailContComponent', () => {
         CommonModule,
         CampaignDetailPresModule,
         SharedModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        BrowserModule,
+        RouterTestingModule
       ],
       providers: [
-        provideMockStore()
+        provideMockStore(),
+        {provide: Router, useValue: mockRouter}
       ]
     })
     .compileComponents();
@@ -51,8 +60,10 @@ describe('CampaignDetailContComponent', () => {
 
     component.onFormSubmit(formData);
     component.continueButton(null);
+
     expect(mockStore.dispatch).toHaveBeenCalledWith(setCampaignDetail({
       detail: formData
     }));
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/products-and-ad-group']);
   });
 });
