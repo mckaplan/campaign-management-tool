@@ -3,14 +3,14 @@
   <form [formGroup]="campaignForm" class="campaignForm">
     <mat-form-field class="campaignName" appearance="outline">
       <mat-label>Campaign Name</mat-label>
-      <input matInput placeholder="Campaign Name" formControlName="campaignName" />
+      <input matInput placeholder="Campaign Name" formControlName="campaignName" id="campaignName" />
       <mat-error>
         * Campaign name is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="dailyBudget" appearance="outline">
       <mat-label>Daily Budget</mat-label>
-      <input matInput placeholder="Daily Budget" formControlName="dailyBudget" />
+      <input matInput placeholder="Daily Budget" formControlName="dailyBudget" id="dailyBudget" />
       <span matTextPrefix>$&nbsp;</span>
     </mat-form-field>
     <mat-error *ngIf="invalidBudget">Please enter a valid budget</mat-error>
@@ -18,18 +18,18 @@
     <div class="date">
       <mat-form-field class="startDate" appearance="outline">
         <mat-label>Start Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="startDate" />
+        <input matInput [matDatepicker]="picker" formControlName="startDate" id="startDate" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="endDate" appearance="outline">
         <mat-label>End Date</mat-label>
-        <input matInput [matDatepicker]="picker1" formControlName="endDate" />
+        <input matInput [matDatepicker]="picker1" formControlName="endDate" id="endDate" />
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
     </div>
-    <mat-error *ngIf="invalidDate">Please enter a valid date</mat-error>
+    <mat-error class="invalidDate" *ngIf="invalidDate">Please enter a valid date</mat-error>
   </form>
 </div>
